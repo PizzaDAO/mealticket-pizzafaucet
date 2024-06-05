@@ -16,7 +16,7 @@ Pizza Faucet is a dapp designed to facilitate the reimbursement of pizza purchas
 - **Reimburse Button**: Available for any user to start the reimbursement process.
 - **Reimbursement Modal**: Upon clicking 'Reimburse', a modal will open for each post.
   - **Payment Interface**: Users can pay the poster (must have connected wallet to farc profile) in USDC through this modal.
-  - **Completion Status**: Once payment is confirmed, update the post status to 'Reimbursed'.
+  - **Completion Status**: Once payment is confirmed, update the post status to 'Reimbursed' in DB.
 
 ## Technical Specification
 
@@ -26,7 +26,7 @@ Pizza Faucet is a dapp designed to facilitate the reimbursement of pizza purchas
 
 ### Backend
 - **API Integration**: 
-  - **NANAR API**: Fetch posts from the Farcaster network.
+  - **Neynar API**: Fetch posts from the Farcaster network.
   - **Data Storage**: 
     - **Vercel KV Store**: Track reimbursement status without a traditional database.
 
