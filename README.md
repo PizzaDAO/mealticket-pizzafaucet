@@ -27,3 +27,12 @@ There'll need to be a nice friendly front-end for pizza-eaters, and a simple-pow
 Some WIREFRAMES will be nice here.
 
 
+----
+
+Development plan (please contribute!)
+
+maybe we 
+it may be something like:
+Build the web2 version with whatever automation platform is easiest
+get the flow right
+then port it to web3 the right way
