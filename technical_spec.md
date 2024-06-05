@@ -1,4 +1,4 @@
-# Pizza Faucet: Pizza Faucet Reimbursement System
+# Pizza Faucet Reimbursement System MVP
 
 ## Overview
 Pizza Faucet is a dapp designed to facilitate the reimbursement of pizza purchases. The site will display posts from the Pizza Faucet Farcaster channel, allowing users to view and reimburse pizza purchases with USDC.
