@@ -24,7 +24,7 @@ export const ChannelCasts = async (props: Props) => {
         <p className="text-lead-800 mx-auto mt-2.5 max-w-2xl text-center text-base leading-7 dark:text-zinc-300">
             A Free and Open faucet design to bring pizza to the people.
         </p>
-        <div className="mx-auto mt-16 max-w-7xl sm:grid sm:grid-cols-3 sm:gap-6">
+        <div className="mx-auto mt-16 max-w-7xl sm:grid sm:grid-cols-3 sm:gap-6 space-y-2 sm:space-y-0">
           {casts.map(cast => {
             return (
               <div key={cast.hash}>
