@@ -33,7 +33,7 @@ export const Avatar = (props: Props) => {
   return (
     <div
       className={classNames(
-        "isolate max-h-full max-w-full shrink-0 overflow-hidden bg-zinc-100 dark:bg-zinc-800",
+        "isolate max-h-full max-w-full shrink-0 overflow-hidden bg-zinc-100",
         borderRadiusClass,
         className,
       )}
@@ -48,17 +48,11 @@ export const Avatar = (props: Props) => {
           height={size}
           onError={() => setImageUrl(null)}
           unoptimized
+          loading="lazy"
         />
       )}
 
-      {!imageUrl && (
-        <BoringAvatar
-          size={size}
-          name={id || name}
-          variant="pixel"
-          square
-        />
-      )}
+      {!imageUrl && <BoringAvatar size={size} name={id || name} variant="pixel" square />}
     </div>
   );
 };

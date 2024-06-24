@@ -12,5 +12,5 @@ export const getChannelCasts = unstable_cache(
     return feed.casts;
   },
   undefined,
-  { revalidate: 60, tags: ["feed"] }
+  { revalidate: 60, tags: ["feed"] },
 );

@@ -1,4 +1,3 @@
-
 import { timeSince, timeSinceShort } from "@/app/libs/numbers";
 import { isBefore } from "date-fns/isBefore";
 import { subSeconds } from "date-fns/subSeconds";
@@ -19,7 +18,7 @@ export const DateRelative = (props: Props) => {
     justNowText = "just now",
     agoText = "ago",
   } = props;
-  
+
   if (!rawDate) return null;
   const date = rawDate instanceof Date ? rawDate : new Date(rawDate);
 
@@ -32,7 +31,9 @@ export const DateRelative = (props: Props) => {
       suppressHydrationWarning
       className="whitespace-nowrap"
     >
-      {isJustNow ? justNowText : `${variant === "default" ? timeSince(date) : timeSinceShort(date)} ${agoText}`}
+      {isJustNow
+        ? justNowText
+        : `${variant === "default" ? timeSince(date) : timeSinceShort(date)} ${agoText}`}
     </time>
   );
 };

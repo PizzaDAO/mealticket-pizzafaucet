@@ -1,25 +1,24 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Gluten, Rubik } from "next/font/google";
+import { PropsWithChildren } from "react";
 import "./globals.css";
+import { ReimbursementProvider } from "./libs/ReimbursementProvider";
 import Wagmi from "./libs/wagmi/WagmiProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const sans = Rubik({ subsets: ["latin"], variable: "--font-sans" });
+const display = Gluten({ subsets: ["latin"], variable: "--font-display" });
 
 export const metadata: Metadata = {
   title: "Pizza Faucet",
   description: "A Free and Open faucet design to bring pizza to the people.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${sans.variable} ${display.variable} bg-yellow-50 text-black`}>
         <Wagmi>
-            {children}
+          <ReimbursementProvider>{children}</ReimbursementProvider>
         </Wagmi>
       </body>
     </html>

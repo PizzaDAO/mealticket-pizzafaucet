@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-images: {
-    domains: ['imagedelivery.net', 'imgur.com', 'i.imgur.com', 'arweave.net'],
+  images: {
+    domains: ["imagedelivery.net", "imgur.com", "i.imgur.com", "arweave.net"],
   },
 };
 
