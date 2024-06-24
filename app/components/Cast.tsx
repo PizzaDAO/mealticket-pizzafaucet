@@ -82,11 +82,11 @@ export function Cast(props: Props) {
         </a>
         <a href={castUrl} target="_blank" className="group flex items-center">
           <SvgHeart className="mr-1.5 size-4 text-zinc-500 duration-100 group-hover:text-zinc-800" />{" "}
-          {reactions.likes.length}
+          {reactions.likes_count}
         </a>
         <a href={castUrl} target="_blank" className="group flex items-center">
           <SvgRepeat className="mr-1.5 size-4 text-zinc-500 duration-100 group-hover:text-zinc-800" />{" "}
-          {reactions.recasts.length}
+          {reactions.recasts_count}
         </a>
       </div>
     </div>
