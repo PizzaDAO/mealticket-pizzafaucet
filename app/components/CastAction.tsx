@@ -33,7 +33,7 @@ export const CastAction = (props: Props) => {
       <a
         href={`https://basescan.org/tx/${reimbursment.transactionHash}`}
         target="_blank"
-        className="rounded-xl bg-zinc-500 px-2 pb-0.5 pt-1.5 font-display text-xs font-medium text-white duration-100 ease-in-out hover:bg-zinc-400"
+        className="rounded-xl bg-green-500 px-2 pb-0.5 pt-1.5 font-display text-xs font-medium text-white duration-100 ease-in-out hover:bg-zinc-400"
       >
         Reimbursed
       </a>

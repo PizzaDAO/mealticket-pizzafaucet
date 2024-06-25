@@ -50,7 +50,11 @@ export default function Home() {
           ></path>
         </svg>
         <div className="pb-10">
-          <p className="text-center font-display text-yellow-950">Copyleft &copy; PizzaDAO 2024</p>
+          <p className="text-center font-display text-yellow-950">
+            Copyleft
+            <span className="mx-1 inline-block scale-x-[-1] transform">&copy;</span>
+            PizzaDAO 2024
+          </p>
         </div>
       </footer>
     </>
