@@ -36,7 +36,7 @@ export default function Home() {
           </svg>
         </div>
       </header>
-      <ChannelCasts channelId="pizzadao" />
+      <ChannelCasts channelId="pizzafaucet" />
       <footer className="jrelative bg-yellow-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
