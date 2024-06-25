@@ -5,6 +5,7 @@ import SvgRepeat from "@/app/icons/Recast";
 import { CastWithInteractions } from "@/app/libs/farcaster/client";
 import { EmbedUrl } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import Linkify from "linkify-react";
+import { getCastUrl } from "../libs/farcaster/utils";
 import { CastAction } from "./CastAction";
 
 interface Props {
@@ -14,9 +15,9 @@ interface Props {
 
 export function Cast(props: Props) {
   const { cast, className = "" } = props;
-  const { author, timestamp, text, hash, reactions, replies } = cast;
+  const { author, text, reactions, replies } = cast;
 
-  const castUrl = `https://warpcast.com/${author.username}/${hash}`;
+  const castUrl = getCastUrl(cast);
 
   const images = cast.embeds
     .filter(e => e.hasOwnProperty("url"))
@@ -44,16 +45,12 @@ export function Cast(props: Props) {
             {author.display_name || `@${author.username}`}
           </b>
         </a>
-        <CastAction
-          castUrl={castUrl}
-          timestamp={timestamp}
-          isReimbursed={author.display_name?.includes("o") || false}
-        />
+        <CastAction cast={cast} />
       </div>
       <div className="mt-2.5 overflow-hidden whitespace-pre-line text-sm">
         <Linkify
           options={{
-            className: "underline duration-100 break-all",
+            className: "underline duration-100 break-all hover:text-red-500",
             target: "_blank",
           }}
         >

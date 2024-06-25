@@ -4,6 +4,7 @@ import { Cast } from "@/app/components/Cast";
 import { getChannelCasts } from "@/app/libs/farcaster/getFarcasterCasts";
 import { Suspense } from "react";
 import { CastWithInteractions } from "../libs/farcaster/client";
+import { ReimbursmentModal } from "./ReimburmentModal";
 import { Skeleton } from "./Skeleton";
 
 interface Props {
@@ -17,6 +18,7 @@ export const ChannelCasts = async (props: Props) => {
 
   return (
     <section className="px-4 pb-24 pt-16 lg:px-6">
+      <ReimbursmentModal />
       <div className="mx-auto max-w-7xl items-start max-sm:space-y-2 sm:grid sm:grid-cols-2 sm:gap-6 md:grid-cols-3">
         <Suspense fallback={<Skeleton count={8} height={228} />}>
           {casts.then(casts => {
