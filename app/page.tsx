@@ -7,18 +7,20 @@ import Logo from "./logo.svg";
 export default function Home() {
   return (
     <>
-      <nav className="mx-auto flex max-w-screen-2xl items-center justify-between bg-yellow-300 px-4 py-2 lg:px-6">
-        <Image src={Logo} alt="Pizza Faucet" className="size-12" />
-        <div className="flex items-center space-x-2.5">
-          <ReimbursmentButton />
-          <ConnectWalletButton />
-        </div>
-      </nav>
+      <div className="w-full bg-yellow-300">
+        <nav className="mx-auto flex max-w-screen-2xl items-center justify-between px-4 py-2 lg:px-6">
+          <Image src={Logo} alt="Pizza Faucet" className="size-12" />
+          <div className="flex items-center space-x-2.5">
+            <ReimbursmentButton />
+            <ConnectWalletButton />
+          </div>
+        </nav>
+      </div>
       <header className="relative bg-yellow-300 pb-24 pt-12">
-        <h2 className="font-display text-center text-5xl font-bold sm:text-7xl">
+        <h2 className="text-center font-display text-5xl font-bold sm:text-7xl">
           Pizza <span className="text-red-500">Faucet</span>
         </h2>
-        <p className="font-display mx-auto mt-2.5 max-w-2xl text-center text-xl font-light text-yellow-950">
+        <p className="mx-auto mt-2.5 max-w-2xl text-center font-display text-xl font-light text-yellow-950">
           A Free and Open faucet design to bring pizza to the people.
         </p>
         <div className="absolute inset-x-0 bottom-0 w-full overflow-hidden">
@@ -48,7 +50,7 @@ export default function Home() {
           ></path>
         </svg>
         <div className="pb-10">
-          <p className="font-display text-center text-yellow-950">Copyleft &copy; PizzaDAO 2024</p>
+          <p className="text-center font-display text-yellow-950">Copyleft &copy; PizzaDAO 2024</p>
         </div>
       </footer>
     </>
