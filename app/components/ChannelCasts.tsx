@@ -17,7 +17,7 @@ export const ChannelCasts = async (props: Props) => {
   const casts = getChannelCasts(channelId);
 
   return (
-    <section className="px-4 pb-24 pt-16 lg:px-6">
+    <section className="min-h-[550px] px-4 pb-24 pt-16 lg:px-6">
       <ReimbursmentModal />
       <div className="mx-auto max-w-7xl items-start max-sm:space-y-2 sm:grid sm:grid-cols-2 sm:gap-6 md:grid-cols-3">
         <Suspense fallback={<Skeleton count={8} height={228} />}>
