@@ -63,9 +63,11 @@ export default function Home() {
         </svg>
         <div className="pb-10">
           <p className="text-center font-display text-yellow-950">
-            Copyleft
-            <span className="mx-1 inline-block scale-x-[-1] transform">&copy;</span>
-            PizzaDAO 2024
+            <a href="https://github.com/PizzaDAO/mealticket-pizzafaucet" target="_blank">
+              Copyleft
+              <span className="mx-1 inline-block scale-x-[-1] transform">&copy;</span>
+              PizzaDAO 2024
+            </a>
           </p>
         </div>
       </footer>
