@@ -4,6 +4,8 @@ import { ConnectWalletButton } from "./components/ConnectWalletButton";
 import { ReimbursmentButton } from "./components/ReimbursmentButton";
 import Logo from "./logo.svg";
 
+const CHANNEL_ID = "pizzadao";
+
 export default function Home() {
   return (
     <>
@@ -23,6 +25,16 @@ export default function Home() {
         <p className="mx-auto mt-2.5 max-w-2xl text-center font-display text-xl font-light text-yellow-950">
           A Free and Open faucet design to bring pizza to the people.
         </p>
+        <div className="mt-10 text-center">
+          <a
+            href={`https://warpcast.com/~/channel/${CHANNEL_ID}`}
+            target="_blank"
+            className="rounded-xl border-2 border-red-500 px-8 pb-2.5 pt-3.5 font-display text-xl font-medium text-red-600 duration-100 ease-in-out hover:bg-red-500 hover:text-white"
+          >
+            Request Pizza
+          </a>
+        </div>
+
         <div className="absolute inset-x-0 bottom-0 w-full overflow-hidden">
           <svg
             viewBox="0 0 1200 120"
@@ -36,13 +48,13 @@ export default function Home() {
           </svg>
         </div>
       </header>
-      <ChannelCasts channelId="pizzadao" />
+      <ChannelCasts channelId={CHANNEL_ID} />
       <footer className="jrelative bg-yellow-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1200 120"
           preserveAspectRatio="none"
-          className="h-20 w-full"
+          className="h-12 w-full md:h-20"
         >
           <path
             d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
