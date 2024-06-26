@@ -4,7 +4,7 @@ import { ConnectWalletButton } from "./components/ConnectWalletButton";
 import { ReimbursmentButton } from "./components/ReimbursmentButton";
 import Logo from "./logo.svg";
 
-const CHANNEL_ID = "pizzadao";
+const CHANNEL_ID = "pizzafaucet";
 
 export default function Home() {
   return (
