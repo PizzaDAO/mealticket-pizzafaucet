@@ -7,6 +7,7 @@ import { EmbedUrl } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import Linkify from "linkify-react";
 import { getCastUrl } from "../libs/farcaster/utils";
 import { CastAction } from "./CastAction";
+import DateRelative from "./DateRelative";
 
 interface Props {
   cast: CastWithInteractions;
@@ -15,7 +16,7 @@ interface Props {
 
 export function Cast(props: Props) {
   const { cast, className = "" } = props;
-  const { author, text, reactions, replies } = cast;
+  const { author, text, reactions, replies, timestamp } = cast;
 
   const castUrl = getCastUrl(cast);
 
@@ -26,14 +27,10 @@ export function Cast(props: Props) {
 
   return (
     <div
-      className={`relative max-w-full rounded-xl border border-yellow-300 bg-yellow-300/10 p-5 font-sans shadow shadow-yellow-300/50 ${className}`}
+      className={`relative max-w-full rounded-xl bg-yellow-100 p-5 font-sans shadow-md ${className}`}
     >
       <div className="flex items-center justify-between space-x-4">
-        <a
-          href={`https://warpcast.com/~/profiles/${author.fid}`}
-          target="_blank"
-          className="flex shrink-0 items-center duration-100 hover:opacity-75"
-        >
+        <div className="flex shrink-0 items-center space-x-1.5">
           <Avatar
             id={author.fid.toString()}
             imageUrl={author.pfp_url}
@@ -41,10 +38,21 @@ export function Cast(props: Props) {
             size={32}
             className="shrink-0 rounded-full object-cover"
           />
-          <b className="ml-1.5 text-sm font-medium text-zinc-800">
-            {author.display_name || `@${author.username}`}
-          </b>
-        </a>
+          <div>
+            <a
+              href={`https://warpcast.com/~/profiles/${author.fid}`}
+              target="_blank"
+              className="flex shrink-0 items-center duration-100 hover:opacity-75"
+            >
+              <b className="text-sm font-medium leading-tight text-zinc-800">
+                {author.display_name || `@${author.username}`}
+              </b>
+            </a>
+            <div className="text-xs text-zinc-500">
+              <DateRelative date={timestamp} variant="short" />
+            </div>
+          </div>
+        </div>
         <CastAction cast={cast} />
       </div>
       <div className="mt-2.5 overflow-hidden whitespace-pre-line text-sm">

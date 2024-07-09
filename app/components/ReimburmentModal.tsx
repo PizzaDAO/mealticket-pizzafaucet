@@ -34,7 +34,7 @@ export function ReimbursmentModal() {
       <DialogBackdrop className="fixed inset-0 bg-black/75 backdrop-blur" />
 
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-        <DialogPanel className="w-full max-w-lg rounded-xl border bg-yellow-50 p-8 font-sans">
+        <DialogPanel className="w-full max-w-lg rounded-xl border bg-yellow-50 p-5 font-sans lg:p-8">
           <DialogTitle className="font-display text-2xl font-bold">
             Reimburse <span className="text-red-500">expense</span>
           </DialogTitle>
@@ -112,7 +112,7 @@ export function ReimbursmentModal() {
                     isConfirming ||
                     isConfirmed
                   }
-                  className="rounded-xl bg-red-500 px-4 pb-1.5 pt-2.5 font-display font-medium text-white duration-100 ease-in-out hover:bg-red-400 disabled:opacity-50"
+                  className="rounded-xl bg-green-500 px-4 pb-1.5 pt-2.5 font-display font-medium text-white duration-100 ease-in-out hover:bg-green-400 disabled:opacity-50"
                 >
                   Proceed
                 </button>

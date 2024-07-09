@@ -16,7 +16,7 @@ export const ConnectWalletButton = () => {
             {!isConnected && (
               <button
                 onClick={show}
-                className="font-display rounded-xl bg-red-500 px-4 pb-1.5 pt-2.5 font-medium text-white duration-100 ease-in-out hover:bg-red-400"
+                className="rounded-xl border border-black bg-yellow-50 px-2.5 pb-1.5 pt-2.5 font-display font-bold text-black shadow-md duration-100 ease-in-out hover:bg-yellow-100 max-sm:text-sm lg:px-4"
               >
                 Connect Wallet
               </button>

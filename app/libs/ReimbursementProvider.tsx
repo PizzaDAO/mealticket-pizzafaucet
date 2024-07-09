@@ -10,9 +10,6 @@ import { BASE_USDC_ADDRESS } from "./wagmi/config";
 import { usdcAbi } from "./wagmi/usdcabi";
 
 interface ReimbursementContextType {
-  isActive: boolean;
-  activate: () => void;
-  deactivate: () => void;
   openModal: (cast: CastWithInteractions) => void;
   closeModal: () => void;
   cast: CastWithInteractions | null;
@@ -30,10 +27,9 @@ interface ReimbursementContextType {
 const ReimbursementContext = createContext<ReimbursementContextType | null>(null);
 
 export const ReimbursementProvider = ({ children }: PropsWithChildren) => {
-  const [isActive, setIsActive] = useState<boolean>(false);
   const [cast, setCast] = useState<CastWithInteractions | null>(null);
   const [reimburments, setReimburments] = useState<Reimbursment[]>([]);
-  const { chainId } = useAccount();
+  const { chainId, isConnected } = useAccount();
   const { switchChainAsync } = useSwitchChain();
 
   const { data: hash, writeContract, isPending, error, reset } = useWriteContract();
@@ -56,9 +52,6 @@ export const ReimbursementProvider = ({ children }: PropsWithChildren) => {
   return (
     <ReimbursementContext.Provider
       value={{
-        isActive,
-        activate: () => setIsActive(true),
-        deactivate: () => setIsActive(false),
         openModal: (cast: CastWithInteractions) => setCast(cast),
         closeModal: () => setCast(null),
         cast,

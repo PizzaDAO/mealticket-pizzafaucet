@@ -16,7 +16,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-      <body className={`${sans.variable} ${display.variable} bg-yellow-50 text-black`}>
+      <body
+        className={`${sans.variable} ${display.variable} overscroll-none bg-yellow-400 text-black`}
+      >
         <Wagmi>
           <ReimbursementProvider>{children}</ReimbursementProvider>
         </Wagmi>
