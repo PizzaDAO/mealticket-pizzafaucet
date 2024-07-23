@@ -45,7 +45,7 @@ export default function Home() {
             <a href="https://github.com/PizzaDAO/mealticket-pizzafaucet" target="_blank">
               Copyleft
               <span className="mx-1 inline-block scale-x-[-1] transform">&copy;</span>
-              PizzaDAO 2024
+              PizzaDAO
             </a>
           </p>
         </div>

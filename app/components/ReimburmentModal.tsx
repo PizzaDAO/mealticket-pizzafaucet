@@ -76,7 +76,7 @@ export function ReimbursmentModal() {
                   type="number"
                   min={1}
                   max={1500}
-                  step={1}
+                  step={0.01}
                   value={amount}
                   onChange={e => setAmount(e.target.value)}
                   autoComplete="off"
