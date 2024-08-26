@@ -8,11 +8,12 @@ export const getChannelCasts = unstable_cache(
     let allCasts: CastWithInteractions[] = [];
 
     while (i < 3) {
-      const feed = await farcaster.fetchFeed("filter", {
-        filterType: "channel_id",
+      const feed = await farcaster.fetchFeedByChannelIds([channelId], {
         limit: 100,
-        channelId,
         cursor: cursor || undefined,
+        shouldModerate: true,
+        withRecasts: false,
+        withReplies: false,
       });
 
       allCasts = allCasts.concat(feed.casts);
