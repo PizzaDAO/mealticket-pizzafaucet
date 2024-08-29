@@ -4,7 +4,7 @@ import { PropsWithChildren, createContext, useContext, useEffect, useState } fro
 import { BaseError, parseEther } from "viem";
 import { base } from "viem/chains";
 import { useAccount, useSwitchChain, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { CastWithInteractions } from "./farcaster/client";
+import { CastWithInteractions, respondToReimbursementCast } from "./farcaster";
 import { Reimbursment, getReimbursments, storeReimbursment } from "./reimburments";
 import { BASE_USDC_ADDRESS } from "./wagmi/config";
 import { usdcAbi } from "./wagmi/usdcabi";
@@ -21,7 +21,7 @@ interface ReimbursementContextType {
   error: string | undefined;
   hash: `0x${string}` | undefined;
   reset: () => void;
-  checkReimbursment: (castHash: string) => Reimbursment | undefined;
+  checkReimbursement: (castHash: string) => Reimbursment | undefined;
 }
 
 const ReimbursementContext = createContext<ReimbursementContextType | null>(null);
@@ -45,6 +45,8 @@ export const ReimbursementProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     if (isConfirmed && cast && hash) {
       storeReimbursment({ castHash: cast.hash, transactionHash: hash }).then(setReimburments);
+      // TODO: reply to cast that, reimbursement is paid
+      respondToReimbursementCast(cast.hash);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, cast, hash]);
@@ -79,7 +81,7 @@ export const ReimbursementProvider = ({ children }: PropsWithChildren) => {
         error: error ? (error as BaseError).shortMessage || error.message : undefined,
         hash,
         reset,
-        checkReimbursment: (castHash: string) => reimburments.find(r => r.castHash === castHash),
+        checkReimbursement: (castHash: string) => reimburments.find(r => r.castHash === castHash),
       }}
     >
       {children}
