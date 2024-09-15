@@ -2,7 +2,7 @@ import { Avatar } from "@/app/components/Avatar";
 import SvgComment from "@/app/icons/Comment";
 import SvgHeart from "@/app/icons/Heart";
 import SvgRepeat from "@/app/icons/Recast";
-import { CastWithInteractions } from "@/app/libs/farcaster/client";
+import { CastWithInteractions } from "@/app/libs/farcaster";
 import { EmbedUrl } from "@neynar/nodejs-sdk/build/neynar-api/v2";
 import Linkify from "linkify-react";
 import { getCastUrl } from "../libs/farcaster/utils";
