@@ -46,7 +46,7 @@ export const ReimbursementProvider = ({ children }: PropsWithChildren) => {
     if (isConfirmed && cast && hash) {
       storeReimbursment({ castHash: cast.hash, transactionHash: hash }).then(setReimburments);
       // TODO: reply to cast that, reimbursement is paid
-      respondToReimbursementCast(cast.hash);
+      respondToReimbursementCast(cast.hash, hash);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, cast, hash]);
