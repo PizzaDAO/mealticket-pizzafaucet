@@ -32,7 +32,6 @@ export function ReimbursmentModal() {
   return (
     <Dialog open={isModalOpen} onClose={closeModal} className="relative z-50">
       <DialogBackdrop className="fixed inset-0 bg-black/75 backdrop-blur" />
-
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
         <DialogPanel className="w-full max-w-lg rounded-xl border bg-yellow-50 p-5 font-sans lg:p-8">
           <DialogTitle className="font-display text-2xl font-bold">

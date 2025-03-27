@@ -1,31 +1,36 @@
+'use client'
+
 import Image from "next/image";
 import { ChannelCasts } from "./components/ChannelCasts";
 import { ConnectWalletButton } from "./components/ConnectWalletButton";
-import { Instructions } from "./components/Instructions";
 import Logo from "./images/logo.png";
+import { Instructions } from "./components/Instructions";
+
+import { SignInButton } from "@farcaster/auth-kit";
 
 const CHANNEL_ID = "pizzafaucet";
 
 export default function Home() {
   return (
     <>
-      <nav className="z-10 mx-auto flex max-w-screen-xl items-center justify-between px-4 py-4 lg:sticky lg:top-0 lg:px-6">
+      <nav className="z-50 bg-yellow-400 mx-auto flex max-w-screen-xl items-center justify-between px-4 py-4 lg:sticky lg:top-0 lg:px-6">
         <Image src={Logo} alt="Pizza Faucet" className="h-6 w-auto lg:h-8" />
         <ConnectWalletButton />
       </nav>
 
-      <section className="mx-auto max-w-screen-xl px-4 pb-24 pt-16 lg:px-6">
-        <div className="relative grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start lg:gap-24">
+      <section className="relative mx-auto max-w-screen-xl px-4 pb-24 pt-10 lg:px-6 z-10">
+        <div className="relative grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start lg:gap-24  z-10">
           <div className="lg:sticky lg:top-[136px]">
-            <h2 className="text-center font-display text-5xl font-bold sm:text-[82px]">
-              Pizza<span className="text-red-500">Faucet</span>
+            <h2 className="flex gap-2 font-display text-5xl font-bold sm:text-[82px]">
+              Pizza <span className="text-red-500 inline-block"> Faucet</span>
+              {/* <a href="/property"> Property Route</a> */}
             </h2>
             <p className="mb-12 text-center font-display text-xl font-medium text-yellow-950 lg:text-3xl">
               A Free and Open faucet design to bring pizza to the people.
             </p>
             <Instructions channelId={CHANNEL_ID} />
           </div>
-          <ChannelCasts channelId={CHANNEL_ID} />
+          {/* <ChannelCasts channelId={CHANNEL_ID} /> */}
         </div>
       </section>
       <footer className="relative bg-red-500">

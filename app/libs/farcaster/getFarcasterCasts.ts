@@ -1,5 +1,7 @@
+
 import { unstable_cache } from "next/cache";
-import { CastWithInteractions, farcaster } from "./client";
+import { farcaster } from "./client";
+import { CastWithInteractions } from "@neynar/nodejs-sdk/build/api";
 
 export const getChannelCasts = unstable_cache(
   async (channelId: string) => {
@@ -8,19 +10,24 @@ export const getChannelCasts = unstable_cache(
     let allCasts: CastWithInteractions[] = [];
 
     while (i < 3) {
-      const feed = await farcaster.fetchFeedByChannelIds([channelId], {
-        limit: 100,
-        cursor: cursor || undefined,
-        shouldModerate: true,
-        withRecasts: false,
-        withReplies: false,
-      });
+      try {
+        const feed = await farcaster.fetchFeedByChannelIds({
+          channelIds: [channelId],
+          limit: 100,
+          cursor: cursor || undefined,
+          shouldModerate: true,
+          withRecasts: false,
+          withReplies: false,
+        });
 
-      allCasts = allCasts.concat(feed.casts);
-      cursor = feed.next.cursor || undefined;
-      if (cursor === undefined) break;
+        allCasts = allCasts.concat(feed.casts);
+        cursor = feed.next.cursor || undefined;
+        if (cursor === undefined) break;
 
-      i++;
+        i++;
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     return allCasts;

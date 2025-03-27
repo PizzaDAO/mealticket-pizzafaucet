@@ -4,7 +4,7 @@ import { PropsWithChildren, createContext, useContext, useEffect, useState } fro
 import { BaseError, parseEther } from "viem";
 import { base } from "viem/chains";
 import { useAccount, useSwitchChain, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { CastWithInteractions, respondToReimbursementCast } from "./farcaster";
+import { CastWithInteractions } from "./farcaster";
 import { Reimbursment, getReimbursments, storeReimbursment } from "./reimburments";
 import { BASE_USDC_ADDRESS } from "./wagmi/config";
 import { usdcAbi } from "./wagmi/usdcabi";
@@ -46,7 +46,7 @@ export const ReimbursementProvider = ({ children }: PropsWithChildren) => {
     if (isConfirmed && cast && hash) {
       storeReimbursment({ castHash: cast.hash, transactionHash: hash }).then(setReimburments);
       // TODO: reply to cast that, reimbursement is paid
-      respondToReimbursementCast(cast.hash, hash);
+      // respondToReimbursementCast(cast.hash, hash);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, cast, hash]);
