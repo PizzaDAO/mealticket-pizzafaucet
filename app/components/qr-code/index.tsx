@@ -26,8 +26,7 @@ export function QRCodeDialog({
             !isError &&
             <>
                <div className={'instructions'}>
-                  To sign in with Farcaster, scan the code below with your phone's
-                  camera.
+                  {"To sign in with Farcaster, scan the code below with your phone&#39;s camera."}
                </div>
                {
                   loading &&
@@ -73,7 +72,7 @@ export function QRCodeDialog({
                                  clipRule="evenodd"
                               />
                            </svg>
-                           <span style={{ marginLeft: 9 }}>I'm using my phone →</span>
+                           <span style={{ marginLeft: 9 }}>{"I&#39;m using my phone →"}</span>
                         </button>
                      </div>
                   </>

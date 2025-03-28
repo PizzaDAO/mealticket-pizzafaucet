@@ -26,7 +26,10 @@ export const Instructions = (props: Props) => {
   }, [isLoggedIn])
 
   const checkMemberStatus = async (fid: number) => {
-    const res = await fetch(`/api/is-member?channelId=${channelId}&fid=${fid}`)
+    const res = await fetch(`/api/is-member`, {
+      headers: { "Content-Type": "application/json" },
+      method: 'POST', body: JSON.stringify({channelId, fid})
+    })
     const { isMember: memberStatus } = await res.json()
     setMemberStatus(memberStatus)
   }

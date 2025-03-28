@@ -2,10 +2,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { farcaster } from "../../libs/farcaster/client";
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
    try {
-      const searchParams = req.nextUrl.searchParams
-      const signerUuid = searchParams.get("signer") ?? ""
+      const { signerUuid } = await req.json()
       const data = await farcaster.lookupSigner({ signerUuid })
       return NextResponse.json({ signer: data }, { status: 200 });
    } catch (error) {

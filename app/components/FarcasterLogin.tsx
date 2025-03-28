@@ -104,7 +104,10 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
    useEffect(() => {
       (async () => {
          if (signInUrl && toggle && !errorStatus && (state === 'pending_approval' || state === undefined)) {
-            const res = await fetch(`/api/confirm-status?signer=${signer?.signer_uuid}`)
+            const res = await fetch(`/api/confirm-status`, {
+               headers: { "Content-Type": "application/json" },
+               method: 'POST', body: JSON.stringify({ signer: signer?.signer_uuid })
+            })
             const data = (await res.json()).signer
             setState(data.status)
             if (data.status === 'approved') {

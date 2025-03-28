@@ -74,6 +74,7 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
          return;
       }
 
+      
       console.log("Form Data:", data);
    };
 
