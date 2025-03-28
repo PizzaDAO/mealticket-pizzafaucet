@@ -12,7 +12,7 @@ interface Props {
 
 export const Instructions = (props: Props) => {
   const { channelId } = props
-  const [isLoggedIn, setLoggedIn] = useState(false) 
+  const [isLoggedIn, setLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true") 
   const [isMember, setMemberStatus] = useState(false)
 
   useEffect(() => {

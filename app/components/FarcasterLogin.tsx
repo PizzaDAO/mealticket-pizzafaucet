@@ -115,7 +115,7 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
                setLoggedIn(true)
                console.log(data)
                localStorage.setItem("signer", JSON.stringify(data))
-               localStorage.setItem("isloggedIn", "true");
+               localStorage.setItem("isLoggedIn", "true");
                closeModal()
             } else setCount(count + 1)
          }  
