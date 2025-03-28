@@ -3,56 +3,92 @@
 
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { NeynarAuthButton, SIWN_variant, useNeynarContext } from "@neynar/react";
 import { FarcasterLoginButton } from './FarcasterLogin';
+import { MemberStatusModal } from './MemberStatusModal';
+import Image from 'next/image';
 
 
 type ComponentProps = {
+   channelId: string
+   isMember: boolean
    isLoggedIn: boolean,
    setLoggedIn: Dispatch<SetStateAction<boolean>>
 }
 
-type Inputs = {
-   images: FileList,
-   address: string,
-   amount: Number
+interface FormData {
+   images: File[];
+   address: string;
+   amount: number;
 }
 
 
-export default function UploadReceiptField({ isLoggedIn, setLoggedIn }: ComponentProps) {
+export default function UploadReceiptField({ channelId, isMember, isLoggedIn, setLoggedIn }: ComponentProps) {
+   const [toggle, setToggle] = useState(false)
+   const { register, handleSubmit, setValue, setError, clearErrors, watch, formState: { errors }, } = useForm<FormData>({
+      defaultValues: {
+         images: [],
+         address: "",
+         amount: 0,
+      },
+   });
 
-   const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
-   const {
-      register,
-      handleSubmit,
-      watch,
-      formState: { errors },
-   } = useForm<Inputs>();
+   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+   const images = watch("images");
 
-   useEffect(() => {
-      addImages(watch("images"))
-   }, [watch('images')])
+   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = e.target.files;
+      if (!files) return;
 
-
-   const addImages = (images: FileList) => {
-      if (uploadedFiles && uploadedFiles?.length > 2 && (uploadedFiles.length + images.length) > 2) {
+      const uploadedFiles = Array.from(files);
+      if (uploadedFiles.length + imagePreviews.length > 3) {
+         setError("images", { message: "You can upload a maximum of 3 images." });
          return;
       }
-      let files = uploadedFiles;
-      for (let i = 0; i < images.length; i++) {
-         files.push(images.item(i) as File)
-      }
-      setUploadedFiles(files)
-      console.log("image added", uploadedFiles)
-   }
 
-   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+      const validFiles = uploadedFiles.filter((file) => file.size <= 3 * 1024 * 1024);
+      if (validFiles.length !== uploadedFiles.length) {
+         setError("images", { message: "Each image must be less than 3MB." });
+         return;
+      }
+
+      const previewUrls = validFiles.map((file) => URL.createObjectURL(file));
+
+      setImagePreviews((prev) => [...prev, ...previewUrls]);
+      setValue("images", [...images, ...validFiles], { shouldValidate: true });
+      clearErrors("images"); // Clear error once valid images are added
+   };
+
+   const removeImage = (index: number) => {
+      setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+      const updatedImages = images.filter((_, i) => i !== index);
+      setValue("images", updatedImages, { shouldValidate: true });
+
+      if (updatedImages.length === 0) {
+         setError("images", { message: "Upload proof of pizza" });
+      }
+   };
+
+   const onSubmit = (data: FormData) => {
+      if (images.length === 0) {
+         setError("images", { message: "Upload proof of pizza" });
+         return;
+      }
+
+      console.log("Form Data:", data);
+   };
 
    return (
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 my-3 text-pretty font-display text-sm font-medium leading-none'>
          <div className='relative'>
             <span className='pl-3 text-red-500'>Upload Image of Pizza and Receipt</span>
-            <input {...register('images', { required: true })} id='file' type='file' multiple className='hidden' />
+            <input
+               id='file'
+               type="file"
+               accept="image/*"
+               multiple
+               className="hidden"
+               onChange={handleImageUpload}
+            />
             <label htmlFor='file' className="relative flex flex-col items-center min-h-36 justify-center bg-black/[.03] rounded-3xl p-3 mt-2">
                <svg width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M6.5013 9.58334C6.5013 6.03952 9.37414 3.16668 12.918 3.16668C16.0571 3.16668 18.672 5.42205 19.2262 8.40113C19.3039 8.81889 19.6026 9.16136 20.0059 9.29512C22.3285 10.0654 24.0013 12.2555 24.0013 14.8333C24.0013 18.055 21.3896 20.6667 18.168 20.6667C17.5236 20.6667 17.0013 21.189 17.0013 21.8333C17.0013 22.4777 17.5236 23 18.168 23C22.6783 23 26.3346 19.3437 26.3346 14.8333C26.3346 11.4588 24.2886 8.56481 21.372 7.31952C20.374 3.58434 16.9683 0.833344 12.918 0.833344C8.08548 0.833344 4.16797 4.75085 4.16797 9.58334C4.16797 9.70034 4.17027 9.81684 4.17484 9.93282C2.08019 11.1413 0.667969 13.4047 0.667969 16C0.667969 19.866 3.80198 23 7.66797 23C8.3123 23 8.83464 22.4777 8.83464 21.8333C8.83464 21.189 8.3123 20.6667 7.66797 20.6667C5.09064 20.6667 3.0013 18.5773 3.0013 16C3.0013 14.0664 4.17751 12.4049 5.85806 11.697C6.34437 11.4921 6.63263 10.9863 6.56103 10.4635C6.5217 10.1763 6.5013 9.88253 6.5013 9.58334Z" fill="#475367" />
@@ -62,19 +98,23 @@ export default function UploadReceiptField({ isLoggedIn, setLoggedIn }: Componen
                   Click to upload Pizza and Receipt
                </span>
             </label>
-            {
-               uploadedFiles.length > 0 &&
-               <div className='z-10 absolute top-0 end-3 p-3 bg-sky-400 flex gap-2'>
-                  { uploadedFiles.map((file, index) => (
-                     <div key={index} className='border py-4 px-3 border-red-400'>
-                        1
-                     </div>
-                  )) }
-               </div> 
-            }
+            {errors.images && <span className='text-sm text-light text-red-700'>{errors.images.message}</span>}
+            <div className="flex gap-2 mt-2">
+               {imagePreviews.map((src, index) => (
+                  <div key={index} className="relative w-20 h-20">
+                     <Image src={src} alt={`Preview ${index}`} fill className="rounded object-cover" />
+                     <button
+                        type="button"
+                        className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded-full"
+                        onClick={() => removeImage(index)}
+                     >
+                        ✕
+                     </button>
+                  </div>
+               ))}
+            </div>
          </div>
-         {errors.images && <span className='text-sm text-light text-red-700'>add an address to be funded upon comfirmation</span>}
-         
+
          <label htmlFor='address' className='flex flex-col gap-2 mt-1'>
             <span className='pl-3 text-red-500'>Reimbursement Address</span>
             <input {...register('address', { required: true })} id='address' placeholder='0x' className='rounded-3xl bg-black/[.03] p-3 outline-none border-b' />
@@ -87,9 +127,12 @@ export default function UploadReceiptField({ isLoggedIn, setLoggedIn }: Componen
          </label>
          {
             isLoggedIn &&
-            <input
-               className="block rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-yellow-200 hover:text-black" type='submit' value={'Submit request'}
-            />
+            <div>
+               <input
+                  className=" w-full block rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-yellow-200 hover:text-black" type='submit' value={'Submit request'}
+               />
+               <MemberStatusModal toggle={toggle} setToggle={setToggle} channelId={channelId} />
+            </div>
          }
          {
             !isLoggedIn &&

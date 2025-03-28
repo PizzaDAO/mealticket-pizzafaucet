@@ -6,8 +6,6 @@ import { ConnectWalletButton } from "./components/ConnectWalletButton";
 import Logo from "./images/logo.png";
 import { Instructions } from "./components/Instructions";
 
-import { SignInButton } from "@farcaster/auth-kit";
-
 const CHANNEL_ID = "pizzafaucet";
 
 export default function Home() {
