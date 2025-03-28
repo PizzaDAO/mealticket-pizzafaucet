@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@farcaster/auth-client": "^0.3.0",
+    "@farcaster/auth-kit": "0.6.0",
     "@farcaster/hub-nodejs": "^0.12.7",
     "@headlessui/react": "^2.2.0",
     "@neynar/nodejs-sdk": "^2.23.0",
