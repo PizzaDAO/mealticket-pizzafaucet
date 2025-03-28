@@ -12,10 +12,11 @@ interface Props {
 
 export const Instructions = (props: Props) => {
   const { channelId } = props
-  const [isLoggedIn, setLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true") 
+  const [isLoggedIn, setLoggedIn] = useState(false) 
   const [isMember, setMemberStatus] = useState(false)
 
   useEffect(() => {
+    setLoggedIn(localStorage.getItem("isLoggedIn") === "true")
     if(isLoggedIn) {
       (async () => {
         const { fid }: Signer = JSON.parse(localStorage.getItem("signer") ?? "")
