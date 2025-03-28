@@ -12,18 +12,20 @@ type ComponentProps = {
    channelId: string
    isMember: boolean
    isLoggedIn: boolean,
-   setLoggedIn: Dispatch<SetStateAction<boolean>>
+   setLoggedIn: Dispatch<SetStateAction<boolean>>,
+   checkMemberStatus: (fid: number) => Promise<void>
 }
 
-interface FormData {
+export interface FormData {
    images: File[];
    address: string;
    amount: number;
 }
 
 
-export default function UploadReceiptField({ channelId, isMember, isLoggedIn, setLoggedIn }: ComponentProps) {
+export default function UploadReceiptField({ channelId, isMember, isLoggedIn, setLoggedIn, checkMemberStatus }: ComponentProps) {
    const [toggle, setToggle] = useState(false)
+   const [formData, setFormData] = useState<FormData>()
    const { register, handleSubmit, setValue, setError, clearErrors, watch, formState: { errors }, } = useForm<FormData>({
       defaultValues: {
          images: [],
@@ -68,14 +70,14 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
       }
    };
 
-   const onSubmit = (data: FormData) => {
+   const onSubmit = async (data: FormData) => {
       if (images.length === 0) {
          setError("images", { message: "Upload proof of pizza" });
          return;
       }
-
-      
       console.log("Form Data:", data);
+      setFormData(data)
+      setToggle(true)
    };
 
    return (
@@ -132,7 +134,11 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
                <input
                   className=" w-full block rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-yellow-200 hover:text-black" type='submit' value={'Submit request'}
                />
-               <MemberStatusModal toggle={toggle} setToggle={setToggle} channelId={channelId} />
+               <MemberStatusModal 
+                  checkMemberStatus={checkMemberStatus} isMember={isMember} 
+                  toggle={toggle} setToggle={setToggle} 
+                  channelId={channelId} castData={formData} 
+               />
             </div>
          }
          {

@@ -51,7 +51,7 @@ export const Instructions = (props: Props) => {
       <p className="text-pretty font-display text-base font-medium lg:text-lg">
         To submit your pizza purchase for reimbursement using PizzaFaucet fill the following form.
       </p>
-      <UploadReceiptField channelId={channelId} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} isMember={isMember} />
+      <UploadReceiptField checkMemberStatus={checkMemberStatus} channelId={channelId} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} isMember={isMember} />
       <a
         href="https://www.base.org/onchainsummer"
         className="absolute right-0 top-0 flex size-20 -translate-y-1/2 rounded-full lg:size-36 lg:translate-x-1/2"
