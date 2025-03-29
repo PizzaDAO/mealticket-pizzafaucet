@@ -9,6 +9,7 @@ import {
    DialogTitle,
 } from "@headlessui/react";
 import { OperationResponse, PostCastResponse, Signer } from "@neynar/nodejs-sdk/build/api";
+import { uploadImages } from '../libs/uploadImages';
 
 type Props = {
    isMember: boolean,
@@ -54,33 +55,29 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
       setLoading(true)
       const { images, text, amount } = castData
       try {
-         console.log(process.env.BLOB_READ_WRITE_TOKEN)
-         setStatus("uplaoding images ...")
-         const imageUrls = (await Promise.all(images.map((image: File) => {
-            return put(image.name, image, {
-               access: 'public',
-               token: process.env.BLOB_READ_WRITE_TOKEN
-            })
-         }))).map(blob => blob.url)
-         console.log(imageUrls)
+
          setStatus("forwarding cast ...")
          const { signer_uuid } = JSON.parse(localStorage.getItem('signer') ?? "")
-         const reqData = {
-            imageUrls, signerId: signer_uuid,
-            text: `${text} $${amount}`.trim()
-         }
+         const formData = new FormData()
+         images.forEach((img: File) => formData.append("images", img))
+         formData.append("text", `${text} $${amount}`.trim())
+         formData.append("signerId", signer_uuid)
+         formData.append("channelId", channelId)
 
-         const res: PostCastResponse = await (await fetch('/api/send-cast', {
-            headers: { "Content-Type": "application/json" },
-            method: 'POST', body: JSON.stringify(reqData)
+         const res = await (await fetch('/api/send-cast', {
+            method: 'POST', body: formData
          })).json()
-
+         console.log()
          if (res.success) {
             setStatus("cast successfully sent")
             console.log(res.cast)
             setLoading(false)
             setSuccess(true)
+         } else if (res.isError) {
+            setLoading(false)
+            setStatus("cast not sent because of error " + (res.error?.message || ""))
          } else {
+            setLoading(false)
             setStatus("cast sending failed, try again")
          }
       } catch (error: any) {
