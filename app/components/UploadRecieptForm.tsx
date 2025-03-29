@@ -18,7 +18,7 @@ type ComponentProps = {
 
 export interface FormData {
    images: File[];
-   address: string;
+   text: string;
    amount: number;
 }
 
@@ -29,7 +29,7 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
    const { register, handleSubmit, setValue, setError, clearErrors, watch, formState: { errors }, } = useForm<FormData>({
       defaultValues: {
          images: [],
-         address: "",
+         text: "",
          amount: 0,
       },
    });
@@ -82,6 +82,10 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
 
    return (
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 my-3 text-pretty font-display text-sm font-medium leading-none'>
+         <label htmlFor='test' className='flex flex-col gap-2 mt-1'>
+            <span className='pl-3 text-red-500'>Cast</span>
+            <textarea {...register('text')} id='address' placeholder='Had the best pizza in west phili' rows={4} className='rounded-tr-3xl rounded-bl-3xl bg-black/[.03] p-3 outline-none border' />
+         </label>
          <div className='relative'>
             <span className='pl-3 text-red-500'>Upload Image of Pizza and Receipt</span>
             <input
@@ -117,12 +121,6 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
                ))}
             </div>
          </div>
-
-         <label htmlFor='address' className='flex flex-col gap-2 mt-1'>
-            <span className='pl-3 text-red-500'>Reimbursement Address</span>
-            <input {...register('address', { required: true })} id='address' placeholder='0x' className='rounded-3xl bg-black/[.03] p-3 outline-none border-b' />
-            {errors.address && <span className='text-sm text-light text-red-700'>add an address to be funded upon comfirmation</span>}
-         </label>
          <label htmlFor='amount' className='flex flex-col gap-2 mt-1'>
             <span className='pl-3 text-red-500'>Amount to Reimburse</span>
             <input {...register('amount', { required: true })} id='address' placeholder='$100' className='rounded-3xl bg-black/[.03] p-3 outline-none border-b' />
