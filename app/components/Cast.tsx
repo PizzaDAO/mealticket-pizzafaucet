@@ -23,7 +23,7 @@ export function Cast(props: Props) {
   const images = cast.embeds
     .filter(e => e.hasOwnProperty("url"))
     .map(e => (e as EmbedUrl).url)
-    .filter(url => url.includes("imagedelivery"));
+  // .filter(url => {url.includes("imagedelivery") });
 
   return (
     <div
