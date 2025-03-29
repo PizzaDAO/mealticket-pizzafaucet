@@ -51,7 +51,7 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
 
    const sendCast = async () => {
       setLoading(true)
-      const { images, address, amount } = castData
+      const { images, text, amount } = castData
       try {
          const imageUrls = (await Promise.all(images.map((image: File) => {
             return put(image.name, image, {
@@ -63,7 +63,7 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
          const { signer_uuid } = JSON.parse(localStorage.getItem('signer') ?? "")
          const reqData = {
             imageUrls, signerId: signer_uuid,
-            text: `${address} $${amount}`
+            text: `${text} $${amount}`.trim()
          }
 
          const res: PostCastResponse = await (await fetch('/api/send-cast', {

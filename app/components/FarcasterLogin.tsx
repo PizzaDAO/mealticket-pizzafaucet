@@ -78,13 +78,14 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
       if (!signInUrl && toggle)
       (async () => {
          try {
-            const res = await fetch("/api/register-signer")
-            const signerRes = (await res.json()).signer
+            const signer = "" //JSON.parse(localStorage.getItem('signer') || "")
+            console.log(localStorage.getItem('signer') || "")
+            const signerRes = signer ? signer : (await (await fetch("/api/register-signer")).json()).signer
+            if(!signer) localStorage.setItem('signer', JSON.stringify(signerRes))
             console.log(signerRes)
             setSigner(signerRes)
             setSignInUrl(signerRes?.signer_approval_url || "")
             setLoading(false)
-            console.log(signInUrl)
          } catch (error) {
             setErrorStatus(true)
             setError(error)
@@ -95,7 +96,7 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
 
    useEffect(() => {
       (async () => {
-         console.log(signInUrl, toggle)
+         console.log(signInUrl, toggle, error)
          if (signInUrl && toggle && !errorStatus && (!state || state === 'pending_approval')) {
             const res = await fetch(`/api/confirm-status`, {
                headers: { "Content-Type": "application/json" },
@@ -118,7 +119,10 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
 
 
    const closeModal = () => {
-      if (state === 'pending_approval')
+      if (state === 'pending_approval'){
+         setAlert("You would have to restart the process, wait a few moment if you have approved on warpcast.")
+         return
+      }
       setToggle(false)
       setChannelToken("")
       setStatus(undefined)
@@ -128,12 +132,29 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
       setSignInUrl("")
    }
 
+   const exit = () => {
+      setToggle(false)
+      setChannelToken("")
+      setStatus(undefined)
+      setLoading(true)
+      setError(null)
+      setErrorStatus(false)
+      setSignInUrl("")
+      setAlert("")
+   }
+
    return (
       <Dialog open={toggle} onClose={closeModal} className="relative z-50">
          <DialogBackdrop className="fixed inset-0 bg-black/75 backdrop-blur" />
          <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
             <DialogPanel className="w-full flex flex-col items-center gap-4 max-w-lg rounded-xl border bg-yellow-50 p-5 font-sans lg:p-8">
-               <DialogTitle className="w-full text-left font-display text-2xl font-bold">
+               {
+                  alert && 
+                  <div className="bg-red-100 p-2">
+                     <p className="text-red-500 text-pretty tx">{ alert } <button className="text-yellow-500 pointer bg" onClick={exit}>Exit anyway</button></p>
+                  </div>
+               }
+               <DialogTitle className="w-full text-left font-display text-xl md:text-2xl font-bold">
                   Connect Farcaster Account
                </DialogTitle>
                <QRCodeDialog loading={loading} url={signInUrl} isError={errorStatus} error={error} />
@@ -148,13 +169,12 @@ export const FarcasterLoginButton = ({ setLoggedIn }: ComponentProps) => {
    const [toggle, setToggle] = useState(false)
 
    const openModal = () => {
-      console.log('open')
       setToggle(true)
    }
 
    return (
       <button
-        className="block rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-yellow-200 hover:text-black" type="button" onClick={openModal}
+        className="block rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-md md:text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-yellow-200 hover:text-black" type="button" onClick={openModal}
       >
         Connect Farcaster Account
         <FarcasterLogin toggle={toggle} setToggle={setToggle} setLoggedIn={setLoggedIn} />
