@@ -22,10 +22,11 @@ type Props = {
 export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMember, checkMemberStatus }: Props) => {
 
    const [loading, setLoading] = useState(false)
+   const [status, setStatus] = useState("")
    const [success, setSuccess] = useState(false)
-   
+
    useEffect(() => {
-      if(toggle && isMember)
+      if (toggle && isMember)
          (async () => {
             await sendCast()
          })()
@@ -43,7 +44,7 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
          method: 'PUT', body: JSON.stringify(reqData)
       })
       const { success, message }: OperationResponse = await res.json()
-      if (success) { 
+      if (success) {
          console.log(message)
          await checkMemberStatus(fid ?? 0)
       }
@@ -53,13 +54,14 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
       setLoading(true)
       const { images, text, amount } = castData
       try {
+         setStatus("uplaoding images ...")
          const imageUrls = (await Promise.all(images.map((image: File) => {
             return put(image.name, image, {
                access: 'public'
             })
          }))).map(blob => blob.url)
          console.log(imageUrls)
-
+         setStatus("forwarding cast ...")
          const { signer_uuid } = JSON.parse(localStorage.getItem('signer') ?? "")
          const reqData = {
             imageUrls, signerId: signer_uuid,
@@ -71,13 +73,17 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
             method: 'POST', body: JSON.stringify(reqData)
          })).json()
 
-         if (res.success){ 
-            console.log(res.cast) 
+         if (res.success) {
+            setStatus("cast successfully sent")
+            console.log(res.cast)
             setLoading(false)
             setSuccess(true)
+         } else {
+            setStatus("cast sending failed, try again")
          }
-      } catch (error) {
+      } catch (error: any) {
          console.log(error)
+         setStatus("cast not sent because of error " + (error?.message || ""))
       }
    }
 
@@ -115,12 +121,46 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
                   </DialogTitle>
                   <div>
                      {
-                        loading && 
-                        <></>
+                        loading &&
+                        <div className={'qr-code-image'}>
+                           <svg className="animate-spin h-20 w-20 text-gray-500" viewBox="0 0 24 24" fill="none">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                              <path
+                                 className="opacity-75"
+                                 fill="currentColor"
+                                 d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 11-8 8z"
+                              />
+                           </svg>
+                           <p className=''>{ status }</p>
+                        </div>
                      }
                      {
-                        !loading && success && 
-                        <></>
+                        !loading && success &&
+                        <div className={'qr-code-image'}>
+                           {/* <svg className="animate-spin h-20 w-20 text-gray-500" viewBox="0 0 24 24" fill="none">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                              <path
+                                 className="opacity-75"
+                                 fill="currentColor"
+                                 d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 11-8 8z"
+                              />
+                           </svg> */}
+                           <p>{ status }</p>
+                        </div>
+                     } 
+                     { 
+                        !loading && !success &&
+                        <div className={'qr-code-image'}>
+                           {/* <svg className="animate-spin h-20 w-20 text-gray-500" viewBox="0 0 24 24" fill="none">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                              <path
+                                 className="opacity-75"
+                                 fill="currentColor"
+                                 d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 11-8 8z"
+                              />
+                           </svg> */}
+                           <p>{ status }</p>
+                        </div>
                       }
                   </div>
                </DialogPanel>

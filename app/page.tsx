@@ -1,4 +1,3 @@
-'use client'
 
 import Image from "next/image";
 import { ChannelCasts } from "./components/ChannelCasts";
@@ -21,7 +20,6 @@ export default function Home() {
           <div className="lg:sticky lg:top-[136px]">
             <h2 className="flex gap-2 font-display text-5xl font-bold sm:text-[82px]">
               Pizza <span className="text-red-500 inline-block"> Faucet</span>
-              {/* <a href="/property"> Property Route</a> */}
             </h2>
             <p className="mb-12 text-center font-display text-xl font-medium text-yellow-950 lg:text-3xl">
               A Free and Open faucet design to bring pizza to the people.
