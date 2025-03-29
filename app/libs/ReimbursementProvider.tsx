@@ -46,7 +46,10 @@ export const ReimbursementProvider = ({ children }: PropsWithChildren) => {
     if (isConfirmed && cast && hash) {
       storeReimbursment({ castHash: cast.hash, transactionHash: hash }).then(setReimburments);
       // TODO: reply to cast that, reimbursement is paid
-      // respondToReimbursementCast(cast.hash, hash);
+      (async () => await fetch('/api/reply-reimpursement', {
+        headers: { "Content-Type": "application/json" }, method: 'POST', 
+        body: JSON.stringify({ castHash: cast.hash, reimbursementTxHash: hash })
+      }))()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, cast, hash]);

@@ -67,6 +67,7 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
          }
 
          const res: PostCastResponse = await (await fetch('/api/send-cast', {
+            headers: { "Content-Type": "application/json" },
             method: 'POST', body: JSON.stringify(reqData)
          })).json()
 

@@ -25,16 +25,6 @@ type Props = {
 
 export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
 
-   const closeModal = () => {
-      setToggle(false)
-      setChannelToken("")
-      setStatus(undefined)
-      setLoading(true)
-      setError(null)
-      setErrorStatus(false)
-      setSignInUrl("")
-   }
-
    const [count, setCount] = useState(0)
    const [loading, setLoading] = useState(true)
    const [channelToken, setChannelToken] = useState("");
@@ -47,6 +37,8 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
 
    const [signer, setSigner] = useState<Signer | undefined>(undefined)
    const [state, setState] = useState("")
+
+   const [alert, setAlert] = useState("")
 
    // useEffect(() => {
    //    if (!channelToken && toggle)
@@ -103,13 +95,15 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
 
    useEffect(() => {
       (async () => {
-         if (signInUrl && toggle && !errorStatus && (state === 'pending_approval' || state === undefined)) {
+         console.log(signInUrl, toggle)
+         if (signInUrl && toggle && !errorStatus && (!state || state === 'pending_approval')) {
             const res = await fetch(`/api/confirm-status`, {
                headers: { "Content-Type": "application/json" },
                method: 'POST', body: JSON.stringify({ signer: signer?.signer_uuid })
             })
             const data = (await res.json()).signer
             setState(data.status)
+            console.log(state)
             if (data.status === 'approved') {
                setSigner(data)
                setLoggedIn(true)
@@ -121,6 +115,18 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
          }  
       })()
    }, [signInUrl, toggle, state, count])
+
+
+   const closeModal = () => {
+      if (state === 'pending_approval')
+      setToggle(false)
+      setChannelToken("")
+      setStatus(undefined)
+      setLoading(true)
+      setError(null)
+      setErrorStatus(false)
+      setSignInUrl("")
+   }
 
    return (
       <Dialog open={toggle} onClose={closeModal} className="relative z-50">
