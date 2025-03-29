@@ -54,10 +54,12 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
       setLoading(true)
       const { images, text, amount } = castData
       try {
+         console.log(process.env.BLOB_READ_WRITE_TOKEN)
          setStatus("uplaoding images ...")
          const imageUrls = (await Promise.all(images.map((image: File) => {
             return put(image.name, image, {
-               access: 'public'
+               access: 'public',
+               token: process.env.BLOB_READ_WRITE_TOKEN
             })
          }))).map(blob => blob.url)
          console.log(imageUrls)
@@ -83,6 +85,7 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
          }
       } catch (error: any) {
          console.log(error)
+         setLoading(false)
          setStatus("cast not sent because of error " + (error?.message || ""))
       }
    }
@@ -122,46 +125,49 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
                   <div>
                      {
                         loading &&
-                        <div className={'qr-code-image'}>
-                           <svg className="animate-spin h-20 w-20 text-gray-500" viewBox="0 0 24 24" fill="none">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                              <path
-                                 className="opacity-75"
-                                 fill="currentColor"
-                                 d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 11-8 8z"
-                              />
-                           </svg>
-                           <p className=''>{ status }</p>
-                        </div>
+                        <>
+                           <div className={'qr-code-image flex-col items-center'}>
+                              <svg className="animate-spin h-20 w-20 text-gray-500" viewBox="0 0 24 24" fill="none">
+                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                 <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 11-8 8z"
+                                 />
+                              </svg>
+                              <p className='instructions'>{status}</p>
+                           </div>
+                        </>
                      }
                      {
                         !loading && success &&
-                        <div className={'qr-code-image'}>
-                           {/* <svg className="animate-spin h-20 w-20 text-gray-500" viewBox="0 0 24 24" fill="none">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                              <path
-                                 className="opacity-75"
-                                 fill="currentColor"
-                                 d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 11-8 8z"
-                              />
-                           </svg> */}
-                           <p>{ status }</p>
-                        </div>
-                     } 
-                     { 
+                        <>
+                           <div className={'qr-code-image flex-col items-center'}>
+                              <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                 <circle cx="50" cy="50" r="45" stroke="green" stroke-width="5" fill="none" />
+                                 <polyline points="30,50 45,65 70,35" stroke="green" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                              </svg>
+
+                              <p className='instructions'>{status}</p>
+                           </div>
+                        </>
+                     }
+                     {
                         !loading && !success &&
-                        <div className={'qr-code-image'}>
-                           {/* <svg className="animate-spin h-20 w-20 text-gray-500" viewBox="0 0 24 24" fill="none">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                              <path
-                                 className="opacity-75"
-                                 fill="currentColor"
-                                 d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 11-8 8z"
-                              />
-                           </svg> */}
-                           <p>{ status }</p>
-                        </div>
-                      }
+                        <>
+                           <div className={'qr-code-image flex-col items-center'}>
+                              {/* <svg className="animate-spin h-20 w-20 text-gray-500" viewBox="0 0 24 24" fill="none">
+                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                 <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 11-8 8z"
+                                 />
+                              </svg> */}
+                              <p className='instructions text-red-400'>{status}</p>
+                           </div>
+                        </>
+                     }
                   </div>
                </DialogPanel>
             </div>

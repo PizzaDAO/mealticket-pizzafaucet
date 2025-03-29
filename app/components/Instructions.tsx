@@ -20,8 +20,8 @@ export const Instructions = (props: Props) => {
     if(isLoggedIn) {
       (async () => {
         const { fid }: Signer = JSON.parse(localStorage.getItem("signer") ?? "")
-        await checkMemberStatus(fid ?? 0)
-        if (!isMember) await sendInvite(fid ?? 0) 
+        const memberStatus = await checkMemberStatus(fid ?? 0)
+        if (!memberStatus) await sendInvite(fid ?? 0) 
       })()
     }
   }, [isLoggedIn])
@@ -32,7 +32,9 @@ export const Instructions = (props: Props) => {
       method: 'POST', body: JSON.stringify({channelId, fid})
     })
     const { isMember: memberStatus } = await res.json()
+    console.log(memberStatus)
     setMemberStatus(memberStatus)
+    return memberStatus;
   }
 
   const sendInvite = async (fid: number) => {
