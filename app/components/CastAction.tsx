@@ -2,7 +2,7 @@
 
 import { ConnectKitButton } from "connectkit";
 import { useReimbursement } from "../libs/ReimbursementProvider";
-import { CastWithInteractions } from "../libs/farcaster/client";
+import { CastWithInteractions } from "../libs/farcaster";
 
 interface Props {
   cast: CastWithInteractions;
@@ -10,14 +10,14 @@ interface Props {
 
 export const CastAction = (props: Props) => {
   const { cast } = props;
-  const { openModal, checkReimbursment } = useReimbursement();
+  const { openModal, checkReimbursement } = useReimbursement();
 
-  const reimbursment = checkReimbursment(cast.hash);
+  const reimbursement = checkReimbursement(cast.hash);
 
-  if (reimbursment) {
+  if (reimbursement) {
     return (
       <a
-        href={`https://basescan.org/tx/${reimbursment?.transactionHash}`}
+        href={`https://basescan.org/tx/${reimbursement?.transactionHash}`}
         target="_blank"
         className="rounded-xl font-display text-sm font-bold text-zinc-500 duration-100 ease-in-out hover:text-zinc-400 lg:text-base"
       >

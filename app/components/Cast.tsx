@@ -2,12 +2,12 @@ import { Avatar } from "@/app/components/Avatar";
 import SvgComment from "@/app/icons/Comment";
 import SvgHeart from "@/app/icons/Heart";
 import SvgRepeat from "@/app/icons/Recast";
-import { CastWithInteractions } from "@/app/libs/farcaster/client";
-import { EmbedUrl } from "@neynar/nodejs-sdk/build/neynar-api/v2";
+import { CastWithInteractions } from "@/app/libs/farcaster";
 import Linkify from "linkify-react";
 import { getCastUrl } from "../libs/farcaster/utils";
 import { CastAction } from "./CastAction";
 import DateRelative from "./DateRelative";
+import { EmbedUrl } from "@neynar/nodejs-sdk/build/api";
 
 interface Props {
   cast: CastWithInteractions;
@@ -23,7 +23,7 @@ export function Cast(props: Props) {
   const images = cast.embeds
     .filter(e => e.hasOwnProperty("url"))
     .map(e => (e as EmbedUrl).url)
-    .filter(url => url.includes("imagedelivery"));
+  // .filter(url => {url.includes("imagedelivery") });
 
   return (
     <div

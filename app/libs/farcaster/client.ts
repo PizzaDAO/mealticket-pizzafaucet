@@ -1,4 +1,14 @@
-import { NeynarAPIClient } from "@neynar/nodejs-sdk";
-export type { CastWithInteractions } from "@neynar/nodejs-sdk/build/neynar-api/v2/index";
 
-export const farcaster = new NeynarAPIClient(`${process.env.NEYNAR_API_KEY}`);
+
+import { NeynarAPIClient, Configuration } from "@neynar/nodejs-sdk";
+
+const config = new Configuration({
+   apiKey: process.env.NEYNAR_API_KEY as string,
+   baseOptions: {
+      headers: {
+         "x-neynar-experimental": true,
+      },
+   },
+});
+
+export const farcaster = new NeynarAPIClient(config);
