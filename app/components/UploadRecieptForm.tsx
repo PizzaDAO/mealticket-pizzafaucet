@@ -29,7 +29,7 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
    const { register, handleSubmit, setValue, setError, clearErrors, watch, formState: { errors }, } = useForm<FormData>({
       defaultValues: {
          images: [],
-         text: "Thanks for the pizza @PizzaDAO and @base!",
+         text: "Proof of Pizza @PizzaDAO @base",
          amount: 0,
       },
    });
@@ -87,7 +87,7 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
             <textarea {...register('text')} id='address' placeholder='Had the best pizza in west phili' rows={4} className='rounded-tr-3xl rounded-bl-3xl bg-black/[.03] p-3 outline-none border' />
          </label>
          <div className='relative'>
-            <span className='pl-3 text-red-500'>Upload Images of Pizza and Receiptt</span>
+            <span className='pl-3 text-red-500'>Upload Images of Pizza and Receipt</span>
             <input
                id='file'
                type="file"

@@ -16,7 +16,7 @@ export default function Home() {
       </nav>
 
       <section className="relative mx-auto max-w-screen-xl px-4 pb-24 pt-10 lg:px-6 z-10">
-        <div className="relative grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start lg:gap-24  z-10">
+        <div className="relative grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start lg:gap-24 z-10">
           <div className="lg:sticky lg:top-[136px]">
             <h2 className="flex gap-2 font-display text-5xl font-bold sm:text-[82px]">
               Pizza <span className="text-red-500 inline-block"> Faucet</span>
