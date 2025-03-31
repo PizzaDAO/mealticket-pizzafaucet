@@ -12,16 +12,16 @@ interface Props {
 
 export const Instructions = (props: Props) => {
   const { channelId } = props
-  const [isLoggedIn, setLoggedIn] = useState(false) 
+  const [isLoggedIn, setLoggedIn] = useState(false)
   const [isMember, setMemberStatus] = useState(false)
 
   useEffect(() => {
     setLoggedIn(localStorage.getItem("isLoggedIn") === "true")
-    if(isLoggedIn) {
+    if (isLoggedIn) {
       (async () => {
         const { fid }: Signer = JSON.parse(localStorage.getItem("signer") ?? "")
         const memberStatus = await checkMemberStatus(fid ?? 0)
-        if (!memberStatus) await sendInvite(fid ?? 0) 
+        if (!memberStatus) await sendInvite(fid ?? 0)
       })()
     }
   }, [isLoggedIn])
@@ -29,7 +29,7 @@ export const Instructions = (props: Props) => {
   const checkMemberStatus = async (fid: number) => {
     const res = await fetch(`/api/is-member`, {
       headers: { "Content-Type": "application/json" },
-      method: 'POST', body: JSON.stringify({channelId, fid})
+      method: 'POST', body: JSON.stringify({ channelId, fid })
     })
     const { isMember: memberStatus } = await res.json()
     console.log(memberStatus)
@@ -52,7 +52,7 @@ export const Instructions = (props: Props) => {
     <div className="relative max-w-full rounded-3xl bg-yellow-100 p-6 lg:p-8">
       <h3 className="font-display text-3xl font-bold">Instructions</h3>
       <p className="text-pretty font-display text-base font-medium lg:text-lg">
-        To submit your pizza purchase for reimbursement using PizzaFaucet fill the following form.
+        Fill the form to submit your pizza purchase for reimbursement.
       </p>
       <UploadReceiptField checkMemberStatus={checkMemberStatus} channelId={channelId} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} isMember={isMember} />
       <a

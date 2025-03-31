@@ -83,11 +83,11 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
    return (
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 my-3 text-pretty font-display text-sm font-medium leading-none'>
          <label htmlFor='test' className='flex flex-col gap-2 mt-1'>
-            <span className='pl-3 text-red-500'>Cast</span>
+            <span className='pl-3 text-red-500'>Message</span>
             <textarea {...register('text')} id='address' placeholder='Had the best pizza in west phili' rows={4} className='rounded-tr-3xl rounded-bl-3xl bg-black/[.03] p-3 outline-none border' />
          </label>
          <div className='relative'>
-            <span className='pl-3 text-red-500'>Upload Image of Pizza and Receipt</span>
+            <span className='pl-3 text-red-500'>Upload Images of Pizza and Receiptt</span>
             <input
                id='file'
                type="file"
@@ -102,7 +102,7 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
                   <path d="M12.7262 15.128C13.1682 14.7351 13.8344 14.7351 14.2764 15.128L16.0264 16.6836C16.508 17.1117 16.5514 17.8491 16.1233 18.3307C15.7488 18.752 15.1376 18.8379 14.668 18.5662V24.1667C14.668 24.811 14.1456 25.3333 13.5013 25.3333C12.857 25.3333 12.3346 24.811 12.3346 24.1667V18.5662C11.8651 18.8379 11.2538 18.752 10.8793 18.3307C10.4513 17.8491 10.4946 17.1117 10.9762 16.6836L12.7262 15.128Z" fill="#475367" />
                </svg>
                <span className="text-blue-600 lg:text-lg">
-                  Click to upload Pizza and Receipt
+                  Click to Upload Pizza and Receipt Images
                </span>
             </label>
             {errors.images && <span className='text-sm text-light text-red-700'>{errors.images.message}</span>}
@@ -132,10 +132,10 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
                <input
                   className=" w-full block rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-yellow-200 hover:text-black" type='submit' value={'Submit request'}
                />
-               <MemberStatusModal 
-                  checkMemberStatus={checkMemberStatus} isMember={isMember} 
-                  toggle={toggle} setToggle={setToggle} 
-                  channelId={channelId} castData={formData} 
+               <MemberStatusModal
+                  checkMemberStatus={checkMemberStatus} isMember={isMember}
+                  toggle={toggle} setToggle={setToggle}
+                  channelId={channelId} castData={formData}
                />
             </div>
          }

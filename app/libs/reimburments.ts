@@ -1,10 +1,12 @@
 "use server";
 
-import { kv } from "@vercel/kv";
+import { Redis } from '@upstash/redis'
 import { revalidateTag, unstable_cache } from "next/cache";
 
 const REDIS_KEY = "reimbursments";
 const CACHE_KEY = "reimbursments";
+
+const kv = Redis.fromEnv()
 
 export interface Reimbursment {
   castHash: string;
