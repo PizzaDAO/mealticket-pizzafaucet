@@ -15,7 +15,7 @@ export const ChannelCasts = (props: Props) => {
   const { channelId } = props;
 
   return (
-    <div className="max-sm:space-y-2 sm:space-y-4">
+    <div className="max-sm:space-y-2 sm:space-y-4 overflow-auto">
       <ReimbursmentModal />
       <h3 className="font-display text-xl font-bold">Recent requests</h3>
       <Casts channelCasts={getChannelCasts(channelId)} />

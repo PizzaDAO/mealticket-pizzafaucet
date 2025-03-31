@@ -29,7 +29,7 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
    const { register, handleSubmit, setValue, setError, clearErrors, watch, formState: { errors }, } = useForm<FormData>({
       defaultValues: {
          images: [],
-         text: "Thanks for the pizza @PizzaDAO and @base!",
+         text: "Proof of Pizza @PizzaDAO @base",
          amount: 0,
       },
    });
