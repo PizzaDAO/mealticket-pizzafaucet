@@ -13,15 +13,16 @@ interface Props {
 export const Instructions = (props: Props) => {
   const { channelId } = props
   const [isLoggedIn, setLoggedIn] = useState(false)
-  const [isMember, setMemberStatus] = useState(true)
+  const [isMember, setMemberStatus] = useState(false)
 
   useEffect(() => {
     setLoggedIn(localStorage.getItem("isLoggedIn") === "true")
     if (isLoggedIn) {
       (async () => {
-        const { fid }: Signer = JSON.parse(localStorage.getItem("signer") ?? "")
-        const memberStatus = await checkMemberStatus(fid ?? 0)
-        if (!memberStatus) await sendInvite(fid ?? 0)
+        const { fid, signer_uuid }: Signer = JSON.parse(localStorage.getItem("signer") ?? "")
+        await checkMemberStatus(fid ?? 0)
+        console.log(isMember, signer_uuid)
+        if (!isMember) await sendInvite(fid ?? 0)
       })()
     }
   }, [isLoggedIn])
@@ -33,8 +34,7 @@ export const Instructions = (props: Props) => {
     })
     const { isMember: memberStatus } = await res.json()
     console.log(memberStatus)
-    setMemberStatus(true)
-    return memberStatus;
+    setMemberStatus(false)
   }
 
   const sendInvite = async (fid: number) => {

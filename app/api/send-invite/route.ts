@@ -6,14 +6,12 @@ import { ChannelMemberRole, PostCastReqBodyEmbeds } from "@neynar/nodejs-sdk/bui
 export async function POST(req: NextRequest) {
    const body = await req.json()
    try {
-      console.log(process.env.NEYNAR_SIGNER_ID)
       const data = await farcaster.inviteChannelMember({
          signerUuid: process.env.NEYNAR_SIGNER_ID || "",
          channelId: body.channelId,
          fid: body.fid,
          role: ChannelMemberRole.Member
       })
-
       return NextResponse.json(data, { status: 200 });
    } catch (error) {
       console.error(error);
