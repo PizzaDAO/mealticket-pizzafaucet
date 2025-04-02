@@ -8,6 +8,7 @@ import { getCastUrl } from "../libs/farcaster/utils";
 import { CastAction } from "./CastAction";
 import DateRelative from "./DateRelative";
 import { EmbedUrl } from "@neynar/nodejs-sdk/build/api";
+import Image from "next/image";
 
 interface Props {
   cast: CastWithInteractions;
@@ -23,7 +24,7 @@ export function Cast(props: Props) {
   const images = cast.embeds
     .filter(e => e.hasOwnProperty("url"))
     .map(e => (e as EmbedUrl).url)
-  // .filter(url => {url.includes("imagedelivery") });
+  // .filter(url => { url.includes("mjcaifx88xrkz47y") });
 
   return (
     <div
