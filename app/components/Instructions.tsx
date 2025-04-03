@@ -34,7 +34,7 @@ export const Instructions = (props: Props) => {
     })
     const { isMember: memberStatus } = await res.json()
     console.log(memberStatus)
-    setMemberStatus(false)
+    setMemberStatus(memberStatus)
   }
 
   const sendInvite = async (fid: number) => {
