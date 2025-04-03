@@ -36,7 +36,7 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
    }
 
    const acceptInvite = async () => {
-      const { signer_uuid: signerId, fid }: Signer = JSON.parse(localStorage.getItem('signer') ?? '')
+      const { signer_uuid: signerId, fid }: Signer = JSON.parse(localStorage.getItem('faucet_user_signer') ?? '')
       const reqData = { channelId, signerId }
       const res = await fetch('/api/accept-invite', {
          headers: { "Content-Type": "application/json" },
@@ -55,7 +55,7 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
       try {
 
          setStatus("forwarding cast ...")
-         const { signer_uuid } = JSON.parse(localStorage.getItem('signer') ?? "")
+         const { signer_uuid } = JSON.parse(localStorage.getItem('faucet_user_signer') ?? "")
          const formData = new FormData()
          images.forEach((img: File) => formData.append("images", img))
          formData.append("text", `${text} $${amount}`.trim())
