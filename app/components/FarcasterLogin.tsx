@@ -81,7 +81,7 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
             const signer = JSON.parse(localStorage.getItem('faucet_user_signer') || "0")
             console.log(localStorage.getItem('faucet_user_signer') || "0")
             const signerRes = signer ? signer : (await (await fetch("/api/register-signer")).json()).signer
-            if(!signer) localStorage.setItem('faucet_user_signer', JSON.stringify(signerRes))
+            if(!signer && signerRes) localStorage.setItem('faucet_user_signer', JSON.stringify(signerRes))
             console.log(signerRes)
             setSigner(signerRes)
             setSignInUrl(signerRes?.signer_approval_url || "")
