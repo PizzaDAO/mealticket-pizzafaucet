@@ -78,10 +78,10 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
       if (!signInUrl && toggle)
       (async () => {
          try {
-            const signer = "" //JSON.parse(localStorage.getItem('signer') || "")
-            console.log(localStorage.getItem('signer') || "")
+            const signer = JSON.parse(localStorage.getItem('faucet_user_signer') || "0")
+            console.log(localStorage.getItem('faucet_user_signer') || "0")
             const signerRes = signer ? signer : (await (await fetch("/api/register-signer")).json()).signer
-            if(!signer) localStorage.setItem('signer', JSON.stringify(signerRes))
+            if(!signer) localStorage.setItem('faucet_user_signer', JSON.stringify(signerRes))
             console.log(signerRes)
             setSigner(signerRes)
             setSignInUrl(signerRes?.signer_approval_url || "")
@@ -108,9 +108,8 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
             if (data.status === 'approved') {
                setSigner(data)
                setLoggedIn(true)
-               console.log(data)
-               localStorage.setItem("signer", JSON.stringify(data))
-               localStorage.setItem("isLoggedIn", "true");
+               localStorage.setItem("faucet_user_signer", JSON.stringify(data))
+               localStorage.setItem("faucet_user_isLoggedIn", "true");
                closeModal()
             } else setCount(count + 1)
          }  
