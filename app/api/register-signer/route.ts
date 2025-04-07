@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
       const signer = await farcaster.createSigner();
       const { signature, deadline, appFid, error } = await generateSignature(signer.public_key);
 
-      if (!signature) 
+      if (!signature)
          return NextResponse.json({ error }, { status: 500 });
 
       const data = await farcaster.registerSignedKey({
@@ -18,6 +18,9 @@ export async function GET(req: NextRequest) {
          signature,
          deadline: deadline ?? 0,
          appFid: appFid ?? 0,
+         sponsor: {
+            sponsored_by_neynar: true
+         }
       })
       return NextResponse.json({ signer: data }, { status: 200 });
    } catch (error) {

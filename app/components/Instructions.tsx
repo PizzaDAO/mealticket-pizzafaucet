@@ -52,7 +52,8 @@ export const Instructions = (props: Props) => {
     <div className="relative max-w-full rounded-3xl bg-yellow-100 p-6 lg:p-8">
       <h3 className="font-display text-3xl font-bold">Instructions</h3>
       <p className="text-pretty font-display text-base font-medium lg:text-lg">
-        Fill the form to submit your pizza purchase for reimbursement.
+        Fill out the form to submit your pizza purchase for reimbursement. It will be posted on
+        <a className="ml-1 text-blue-600" href="https://warpcast.com/~/channel/pizzafaucet" target="blank">/pizzafaucet</a>
       </p>
       <UploadReceiptField checkMemberStatus={checkMemberStatus} channelId={channelId} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} isMember={isMember} />
       <a

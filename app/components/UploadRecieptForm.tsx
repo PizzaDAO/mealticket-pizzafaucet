@@ -29,7 +29,7 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
    const { register, handleSubmit, setValue, setError, clearErrors, watch, formState: { errors }, } = useForm<FormData>({
       defaultValues: {
          images: [],
-         text: "Proof of Pizza @PizzaDAO @base",
+         text: "Proof of Pizza @pizzadao @base",
          amount: 0,
       },
    });
@@ -140,7 +140,7 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
             </div>
          }
          {
-            !isLoggedIn &&
+            isLoggedIn &&
             <FarcasterLoginButton isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} />
          }
       </form>
