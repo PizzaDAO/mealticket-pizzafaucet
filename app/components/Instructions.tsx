@@ -16,10 +16,10 @@ export const Instructions = (props: Props) => {
   const [isMember, setMemberStatus] = useState(false)
 
   useEffect(() => {
-    setLoggedIn(localStorage.getItem("isLoggedIn") === "true")
+    setLoggedIn(localStorage.getItem("faucet_user_isLoggedIn") === "true")
     if (isLoggedIn) {
       (async () => {
-        const { fid, signer_uuid }: Signer = JSON.parse(localStorage.getItem("signer") ?? "")
+        const { fid, signer_uuid }: Signer = JSON.parse(localStorage.getItem("faucet_user_signer") ?? "")
         await checkMemberStatus(fid ?? 0)
         console.log(isMember, signer_uuid)
         if (!isMember) await sendInvite(fid ?? 0)
@@ -34,7 +34,7 @@ export const Instructions = (props: Props) => {
     })
     const { isMember: memberStatus } = await res.json()
     console.log(memberStatus)
-    setMemberStatus(false)
+    setMemberStatus(memberStatus)
   }
 
   const sendInvite = async (fid: number) => {

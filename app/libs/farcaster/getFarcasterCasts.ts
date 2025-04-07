@@ -29,9 +29,10 @@ export const getChannelFeed = async (channelId: string) => {
         channelIds: [channelId],
         limit: 100,
         cursor: cursor || undefined,
-        shouldModerate: true,
+        shouldModerate: false,
         withRecasts: false,
         withReplies: false,
+        membersOnly: true
       });
 
       allCasts = allCasts.concat(feed.casts);

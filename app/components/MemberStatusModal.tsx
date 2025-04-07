@@ -36,7 +36,7 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
    }
 
    const acceptInvite = async () => {
-      const { signer_uuid: signerId, fid }: Signer = JSON.parse(localStorage.getItem('signer') ?? '')
+      const { signer_uuid: signerId, fid }: Signer = JSON.parse(localStorage.getItem('faucet_user_signer') ?? '')
       const reqData = { channelId, signerId }
       const res = await fetch('/api/accept-invite', {
          headers: { "Content-Type": "application/json" },
@@ -55,7 +55,7 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
       try {
 
          setStatus("forwarding cast ...")
-         const { signer_uuid } = JSON.parse(localStorage.getItem('signer') ?? "")
+         const { signer_uuid } = JSON.parse(localStorage.getItem('faucet_user_signer') ?? "")
          const formData = new FormData()
          images.forEach((img: File) => formData.append("images", img))
          formData.append("text", `${text} $${amount}`.trim())
@@ -114,7 +114,7 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
             isMember && castData &&
             <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
                <DialogPanel className="w-full flex flex-col items-center gap-4 max-w-lg rounded-xl border bg-yellow-50 p-5 font-sans lg:p-8">
-                  <DialogTitle className="w-full flex space-between font-display text-xl font-bold">
+                  <DialogTitle className="w-full flex space-between font-display text-l font-bold">
                      Casting to Pizzafaucet channel <span className="border border-red-400 text-red-400 rounded-full p-2 text-l" onClick={closeModal}>x</span>
                   </DialogTitle>
                   <div>
