@@ -127,7 +127,7 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
             {errors.amount && <span className='text-sm text-light text-red-700'>state the amount to be reimbursed</span>}
          </label>
          {
-            !isLoggedIn &&
+            isLoggedIn &&
             <div>
                <input
                   className=" w-full block rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-yellow-200 hover:text-black" type='submit' value={'Submit request'}
@@ -140,7 +140,7 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
             </div>
          }
          {
-            isLoggedIn &&
+            !isLoggedIn &&
             <FarcasterLoginButton isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} />
          }
       </form>
