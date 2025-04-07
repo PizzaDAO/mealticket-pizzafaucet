@@ -22,7 +22,7 @@ export default function Home() {
               Pizza <span className="text-red-500 inline-block"> Faucet</span>
             </h2>
             <p className="mb-12 text-center font-display text-xl font-medium text-yellow-950 lg:text-3xl">
-              A Free and Open faucet design to bring pizza to the people.
+              A Free and Open faucet designed to bring pizza to the people.
             </p>
             <Instructions channelId={CHANNEL_ID} />
           </div>

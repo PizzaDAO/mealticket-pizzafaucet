@@ -58,7 +58,7 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
          const { signer_uuid } = JSON.parse(localStorage.getItem('faucet_user_signer') ?? "")
          const formData = new FormData()
          images.forEach((img: File) => formData.append("images", img))
-         formData.append("text", `${text} $${amount}`.trim())
+         formData.append("text", `${text}\n\nCost: $${amount}`.trim())
          formData.append("signerId", signer_uuid)
          formData.append("channelId", channelId)
 
@@ -114,8 +114,9 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
             isMember && castData &&
             <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
                <DialogPanel className="w-full flex flex-col items-center gap-4 max-w-lg rounded-xl border bg-yellow-50 p-5 font-sans lg:p-8">
-                  <DialogTitle className="w-full flex space-between font-display text-l font-bold">
-                     Casting to Pizzafaucet channel <span className="border border-red-400 text-red-400 rounded-full p-2 text-l" onClick={closeModal}>x</span>
+                  <DialogTitle className="relative w-full flex space-between font-display text-l font-bold">
+                     Casting to Pizzafaucet channel
+                     <span className="absolute end-0 cursor-pointer rounded-full px-1 border border-red-400 text-red-400 text-l" onClick={closeModal}>x</span>
                   </DialogTitle>
                   <div>
                      {

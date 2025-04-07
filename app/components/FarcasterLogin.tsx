@@ -2,10 +2,10 @@
 
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  DialogTitle,
+   Dialog,
+   DialogBackdrop,
+   DialogPanel,
+   DialogTitle,
 } from "@headlessui/react";
 import { appClient } from "../libs/farcaster/loginConfig";
 import { QRCodeDialog } from "./qr-code";
@@ -23,7 +23,7 @@ type Props = {
    setLoggedIn: Dispatch<SetStateAction<boolean>>
 }
 
-export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
+export const FarcasterLogin = ({ setLoggedIn, toggle, setToggle }: Props) => {
 
    const [count, setCount] = useState(0)
    const [loading, setLoading] = useState(true)
@@ -76,19 +76,18 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
 
    useEffect(() => {
       if (!signInUrl && toggle)
-      (async () => {
-         try {
-            const signerRes = (await (await fetch("/api/register-signer")).json()).signer
-            console.log(signerRes)
-            setSigner(signerRes)
-            setSignInUrl(signerRes?.signer_approval_url || "")
-            setLoading(false)
-         } catch (error) {
-            setErrorStatus(true)
-            setError(error)
-            setLoading(false)
-         }
-      })()
+         (async () => {
+            try {
+               const signerRes = (await (await fetch("/api/register-signer")).json()).signer
+               setSigner(signerRes)
+               setSignInUrl(signerRes?.signer_approval_url || "")
+               setLoading(false)
+            } catch (error) {
+               setErrorStatus(true)
+               setError(error)
+               setLoading(false)
+            }
+         })()
    }, [signInUrl, toggle])
 
    useEffect(() => {
@@ -109,13 +108,13 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
                localStorage.setItem("faucet_user_isLoggedIn", "true");
                closeModal()
             } else setCount(count + 1)
-         }  
+         }
       })()
    }, [signInUrl, toggle, state, count])
 
 
    const closeModal = () => {
-      if (state === 'pending_approval'){
+      if (state === 'pending_approval') {
          setAlert("You would have to restart the process, wait a few moment if you have approved on warpcast.")
          return
       }
@@ -145,9 +144,9 @@ export const FarcasterLogin = ({setLoggedIn, toggle, setToggle}: Props) => {
          <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
             <DialogPanel className="w-full flex flex-col items-center gap-4 max-w-lg rounded-xl border bg-yellow-50 p-5 font-sans lg:p-8">
                {
-                  alert && 
+                  alert &&
                   <div className="bg-red-100 p-2">
-                     <p className="text-red-500 text-pretty tx">{ alert } <button className="text-yellow-500 pointer bg" onClick={exit}>Exit anyway</button></p>
+                     <p className="text-red-500 text-pretty tx">{alert} <button className="text-yellow-500 pointer bg" onClick={exit}>Exit anyway</button></p>
                   </div>
                }
                <DialogTitle className="w-full text-left font-display text-xl md:text-2xl font-bold">
@@ -170,10 +169,10 @@ export const FarcasterLoginButton = ({ setLoggedIn }: ComponentProps) => {
 
    return (
       <button
-        className="block rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-md md:text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-yellow-200 hover:text-black" type="button" onClick={openModal}
+         className="block rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-md md:text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-yellow-200 hover:text-black" type="button" onClick={openModal}
       >
-        Connect Farcaster Account
-        <FarcasterLogin toggle={toggle} setToggle={setToggle} setLoggedIn={setLoggedIn} />
-      </button> 
+         Connect Farcaster Account
+         <FarcasterLogin toggle={toggle} setToggle={setToggle} setLoggedIn={setLoggedIn} />
+      </button>
    )
 }
