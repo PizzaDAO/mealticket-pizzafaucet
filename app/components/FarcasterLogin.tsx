@@ -106,7 +106,7 @@ export const FarcasterLogin = ({ setLoggedIn, toggle, setToggle }: Props) => {
                setLoggedIn(true)
                localStorage.setItem("faucet_user_signer", JSON.stringify(data))
                localStorage.setItem("faucet_user_isLoggedIn", "true");
-               closeModal()
+               exit()
             } else setCount(count + 1)
          }
       })()

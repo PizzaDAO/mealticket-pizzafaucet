@@ -26,7 +26,7 @@ export default function Home() {
             </p>
             <Instructions channelId={CHANNEL_ID} />
           </div>
-          <ChannelCasts channelId={CHANNEL_ID} />
+          {/* <ChannelCasts channelId={CHANNEL_ID} /> */}
         </div>
       </section>
       <footer className="relative bg-red-500">
