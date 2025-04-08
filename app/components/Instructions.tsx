@@ -17,18 +17,6 @@ export const Instructions = (props: Props) => {
 
 
   useEffect(() => {
-    setLoggedIn(localStorage.getItem("faucet_user_isLoggedIn") === "true")
-    if (isLoggedIn) {
-      (async () => {
-        const { fid, signer_uuid }: Signer = JSON.parse(localStorage.getItem("faucet_user_signer") ?? "")
-        await checkMemberStatus(fid ?? 0)
-        console.log(isMember, signer_uuid)
-        if (!isMember) await sendInvite(fid ?? 0)
-      })()
-    }
-  }, [isLoggedIn])
-
-  useEffect(() => {
     const oneTimeStorageClear = localStorage.getItem("oneTimeStorageClear")
     if (!oneTimeStorageClear) {
       if (localStorage.getItem("faucet_user_signer"))
@@ -39,7 +27,17 @@ export const Instructions = (props: Props) => {
 
       localStorage.setItem("oneTimeStorageClear", "true")
     }
-  }, [])
+
+    setLoggedIn(localStorage.getItem("faucet_user_isLoggedIn") === "true")
+    if (isLoggedIn) {
+      (async () => {
+        const { fid, signer_uuid }: Signer = JSON.parse(localStorage.getItem("faucet_user_signer") ?? "")
+        await checkMemberStatus(fid ?? 0)
+        console.log(isMember, signer_uuid)
+        if (!isMember) await sendInvite(fid ?? 0)
+      })()
+    }
+  }, [isLoggedIn])
 
   const checkMemberStatus = async (fid: number) => {
     const res = await fetch(`/api/is-member`, {
