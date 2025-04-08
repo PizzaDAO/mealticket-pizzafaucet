@@ -1,6 +1,6 @@
 'use client'
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import {
    Dialog,
    DialogBackdrop,
@@ -21,6 +21,56 @@ type Props = {
    toggle: boolean,
    setToggle: Dispatch<SetStateAction<boolean>>,
    setLoggedIn: Dispatch<SetStateAction<boolean>>
+}
+
+export const FarcasterProfile = () => {
+   const [open, setOpen] = useState(false);
+   const dropdownRef = useRef<HTMLDivElement>(null);
+
+   // Close dropdown when clicking outside
+   useEffect(() => {
+      function handleClickOutside(e: MouseEvent) {
+         if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+            setOpen(false);
+         }
+      }
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+   }, []);
+
+   const handleLogout = () => {
+      console.log('Logging out...');
+      localStorage.removeItem("faucet_user_signer")
+      localStorage.removeItem("faucet_user_isLoggedIn")
+      window.location.reload()
+      // Add your logout logic here
+   };
+
+   return (
+      <div className="relative inline-block text-left" ref={dropdownRef}>
+         <button
+            onClick={() => setOpen(!open)}
+            className="rounded-full overflow-hidden w-10 h-10 border border-gray-300"
+         >
+            <img
+               src="/avatar.png"
+               alt="Avatar"
+               className="w-full h-full object-cover"
+            />
+         </button>
+
+         {open && (
+            <div className="absolute right-0 mt-2 w-40 bg-white border rounded-md shadow-lg z-10">
+               <button
+                  onClick={handleLogout}
+                  className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+               >
+                  Logout
+               </button>
+            </div>
+         )}
+      </div>
+   );
 }
 
 export const FarcasterLogin = ({ setLoggedIn, toggle, setToggle }: Props) => {

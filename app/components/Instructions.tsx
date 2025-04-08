@@ -16,19 +16,15 @@ export const Instructions = (props: Props) => {
   const [isMember, setMemberStatus] = useState(false)
 
 
+
   useEffect(() => {
-    const oneTimeStorageClear = localStorage.getItem("oneTimeStorageClear")
-    if (!oneTimeStorageClear) {
-      if (localStorage.getItem("faucet_user_signer"))
-        localStorage.removeItem("faucet_user_signer")
+    const hasVisited = localStorage.getItem('hasVisited');
 
-      if (localStorage.getItem("faucet_user_signer"))
-        localStorage.removeItem("faucet_user_signer")
-
-      localStorage.setItem("oneTimeStorageClear", "true")
+    if (!hasVisited) {
+      localStorage.clear(); // Or clear specific keys if needed
+      localStorage.setItem('hasVisited', 'true');
     }
-
-    setLoggedIn(localStorage.getItem("faucet_user_isLoggedIn") === "true")
+    setLoggedIn(!!localStorage.getItem("faucet_user_isLoggedIn"))
     if (isLoggedIn) {
       (async () => {
         const { fid, signer_uuid }: Signer = JSON.parse(localStorage.getItem("faucet_user_signer") ?? "")

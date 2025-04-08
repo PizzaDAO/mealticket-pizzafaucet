@@ -4,6 +4,7 @@ import { ChannelCasts } from "./components/ChannelCasts";
 import { ConnectWalletButton } from "./components/ConnectWalletButton";
 import Logo from "./images/logo.png";
 import { Instructions } from "./components/Instructions";
+import { FarcasterProfile } from "./components/FarcasterLogin";
 
 const CHANNEL_ID = "pizzafaucet";
 
@@ -12,7 +13,10 @@ export default function Home() {
     <>
       <nav className="z-50 bg-yellow-400 mx-auto flex max-w-screen-xl items-center justify-between px-4 py-4 lg:sticky lg:top-0 lg:px-6">
         <Image src={Logo} alt="Pizza Faucet" className="h-6 w-auto lg:h-8" />
-        <ConnectWalletButton />
+        <div className="flex gap-3 items-center">
+          <ConnectWalletButton />
+          <FarcasterProfile />
+        </div>
       </nav>
 
       <section className="relative mx-auto max-w-screen-xl px-4 pb-24 pt-10 lg:px-6 z-10">
