@@ -8,8 +8,10 @@ import { bytesToHex, hexToBytes } from "viem";
 export async function GET(req: NextRequest) {
    try {
       const signer = await farcaster.createSigner();
-
       console.log(signer)
+
+      if (signer.status === 'approved')
+         throw Error("false signer detected")
       const { signature, deadline, appFid, error } = await generateSignature(signer.public_key);
 
       if (!signature)
@@ -27,7 +29,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ signer: data }, { status: 200 });
    } catch (error) {
       console.error(error);
-      return NextResponse.json({ error: "An error occurred" }, { status: 500 });
+      return NextResponse.json({ error }, { status: 500 });
    }
 }
 

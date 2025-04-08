@@ -83,6 +83,7 @@ export const FarcasterLogin = ({ setLoggedIn, toggle, setToggle }: Props) => {
                setSignInUrl(signerRes?.signer_approval_url || "")
                setLoading(false)
             } catch (error) {
+               console.log(error)
                setErrorStatus(true)
                setError(error)
                setLoading(false)

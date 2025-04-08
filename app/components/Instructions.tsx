@@ -5,7 +5,6 @@ import Image from "next/image";
 import UploadReceiptField from './UploadRecieptForm';
 import { useEffect, useState } from "react";
 import { Signer } from "@neynar/nodejs-sdk/build/api";
-import { FarcasterLoginButton } from "./FarcasterLogin";
 
 interface Props {
   channelId: string;
@@ -14,20 +13,12 @@ interface Props {
 export const Instructions = (props: Props) => {
   const { channelId } = props
   const [isLoggedIn, setLoggedIn] = useState(false)
-  // const [isAuthorised, setAuthorised] = useState(false)
   const [isMember, setMemberStatus] = useState(false)
+
 
   useEffect(() => {
     setLoggedIn(localStorage.getItem("faucet_user_isLoggedIn") === "true")
-    // setAuthorised(localStorage.getItem("faucet_user_isAuthorised") === "true")
     if (isLoggedIn) {
-      //   (async () => {
-      //     const req = await fetch("/api/fetch-signers")
-      //     const signers = (await req.json()).signers
-      //     console.log(signers)
-      //   })()
-      // }
-      // if (isAuthorised) {
       (async () => {
         const { fid, signer_uuid }: Signer = JSON.parse(localStorage.getItem("faucet_user_signer") ?? "")
         await checkMemberStatus(fid ?? 0)
@@ -36,6 +27,19 @@ export const Instructions = (props: Props) => {
       })()
     }
   }, [isLoggedIn])
+
+  useEffect(() => {
+    const oneTimeStorageClear = localStorage.getItem("oneTimeStorageClear")
+    if (!oneTimeStorageClear) {
+      if (localStorage.get("faucet_user_signer"))
+        localStorage.removeItem("faucet_user_signer")
+
+      if (localStorage.get("faucet_user_signer"))
+        localStorage.removeItem("faucet_user_signer")
+
+      localStorage.setItem("oneTimeStorageClear", "true")
+    }
+  }, [])
 
   const checkMemberStatus = async (fid: number) => {
     const res = await fetch(`/api/is-member`, {
