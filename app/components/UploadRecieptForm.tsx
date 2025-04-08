@@ -47,7 +47,7 @@ export default function UploadReceiptField({ channelId, isMember, isLoggedIn, se
          return;
       }
 
-      const validFiles = uploadedFiles.filter((file) => file.size <= 3 * 1024 * 1024);
+      const validFiles = uploadedFiles.filter((file) => file.size <= 20 * 1024 * 1024);
       if (validFiles.length !== uploadedFiles.length) {
          setError("images", { message: "Each image must be less than 3MB." });
          return;
