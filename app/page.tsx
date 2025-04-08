@@ -15,7 +15,7 @@ export default function Home() {
         <Image src={Logo} alt="Pizza Faucet" className="h-6 w-auto lg:h-8" />
         <div className="flex gap-3 items-center">
           <ConnectWalletButton />
-          <FarcasterProfile />
+          {/* <FarcasterProfile /> */}
         </div>
       </nav>
 
