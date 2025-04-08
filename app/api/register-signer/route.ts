@@ -5,13 +5,14 @@ import { mnemonicToAccount } from "viem/accounts";
 import { ViemLocalEip712Signer } from "@farcaster/hub-nodejs";
 import { bytesToHex, hexToBytes } from "viem";
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
    try {
       const signer = await farcaster.createSigner();
       console.log(signer)
 
       if (signer.status !== 'generated')
          throw Error("false signer detected")
+
       const { signature, deadline, appFid, error } = await generateSignature(signer.public_key);
 
       if (!signature)
