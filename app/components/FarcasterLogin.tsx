@@ -78,7 +78,9 @@ export const FarcasterLogin = ({ setLoggedIn, toggle, setToggle }: Props) => {
       if (!signInUrl && toggle)
          (async () => {
             try {
-               const signerRes = (await (await fetch("/api/register-signer", { cache: 'no-store' })).json()).signer
+               const signerRes = (await (await fetch("/api/register-signer", {
+                  method: 'POST'
+               })).json()).signer
                setSigner(signerRes)
                setSignInUrl(signerRes?.signer_approval_url || "")
                setLoading(false)
