@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
       const signer = await farcaster.createSigner();
       console.log(signer)
 
-      if (signer.status === 'approved')
+      if (signer.status !== 'generated')
          throw Error("false signer detected")
       const { signature, deadline, appFid, error } = await generateSignature(signer.public_key);
 
