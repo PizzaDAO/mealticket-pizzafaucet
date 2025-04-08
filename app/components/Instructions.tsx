@@ -31,10 +31,10 @@ export const Instructions = (props: Props) => {
   useEffect(() => {
     const oneTimeStorageClear = localStorage.getItem("oneTimeStorageClear")
     if (!oneTimeStorageClear) {
-      if (localStorage.get("faucet_user_signer"))
+      if (localStorage.getItem("faucet_user_signer"))
         localStorage.removeItem("faucet_user_signer")
 
-      if (localStorage.get("faucet_user_signer"))
+      if (localStorage.getItem("faucet_user_signer"))
         localStorage.removeItem("faucet_user_signer")
 
       localStorage.setItem("oneTimeStorageClear", "true")
