@@ -8,10 +8,7 @@ import { bytesToHex, hexToBytes } from "viem";
 export async function GET(req: NextRequest) {
    try {
       const signer = await farcaster.createSigner();
-<<<<<<< HEAD
 
-=======
->>>>>>> 77c1d84d3f945f0ae903c9366b8c02103eb3883b
       console.log(signer)
       const { signature, deadline, appFid, error } = await generateSignature(signer.public_key);
 
