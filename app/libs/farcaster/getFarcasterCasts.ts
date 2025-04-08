@@ -51,7 +51,7 @@ export const getModeratedCast = async (channelId: string) => {
   try {
     let cursor: undefined | string = undefined;
     do {
-      const res = await fetch("https://api.warpcast.com/fc/moderated-casts?channelId=" + channelId);
+      const res = await fetch("https://api.warpcast.com/fc/moderated-casts?channelId=" + channelId, { cache: "no-store" });
       const { result: { moderationActions }, next } = await res.json();
       cursor = next?.cursor || undefined;
       allCasts = allCasts.concat(moderationActions);
