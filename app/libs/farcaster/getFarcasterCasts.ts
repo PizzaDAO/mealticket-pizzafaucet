@@ -2,6 +2,7 @@
 import { unstable_cache } from "next/cache";
 import { farcaster } from "./client";
 import { CastWithInteractions } from "@neynar/nodejs-sdk/build/api";
+import { checkMemberStatus } from "./checkMemberStatus";
 
 interface ModeratedCast {
   castHash: string;
@@ -13,10 +14,19 @@ interface ModeratedCast {
 export const getChannelCasts = async (channelId: string) => {
   const data = await Promise.all([getChannelFeed(channelId), getModeratedCast(channelId)]);
 
-  const casts = data[0];
   const moderated = data[1]
+  const casts = await Promise.all(data[0]
+    .filter(cast => !moderated.includes(cast.hash))
+    .map(async cast => {
+    const { members } = await checkMemberStatus('pizzafaucet', cast.author.fid);
+    return {
+      ...cast,
+      isMember: members.filter(m => m.user.fid === cast.author.fid).length > 0
+    }
+  }))
 
-  return casts.filter(cast => !moderated.includes(cast.hash))
+  return casts
+    .filter(cast => cast.isMember)
 }
 
 export const getChannelFeed = async (channelId: string) => {
@@ -32,7 +42,6 @@ export const getChannelFeed = async (channelId: string) => {
         shouldModerate: false,
         withRecasts: false,
         withReplies: false,
-        membersOnly: true
       });
 
       allCasts = allCasts.concat(feed.casts);
