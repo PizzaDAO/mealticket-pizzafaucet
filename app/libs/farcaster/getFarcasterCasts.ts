@@ -3,6 +3,7 @@ import { unstable_cache } from "next/cache";
 import { farcaster } from "./client";
 import { CastWithInteractions } from "@neynar/nodejs-sdk/build/api";
 import { checkMemberStatus } from "./checkMemberStatus";
+import { set } from "react-hook-form";
 
 interface ModeratedCast {
   castHash: string;
@@ -15,15 +16,14 @@ export const getChannelCasts = async (channelId: string) => {
   const data = await Promise.all([getChannelFeed(channelId), getModeratedCast(channelId)]);
 
   const moderated = data[1]
+  const { members } = await checkMemberStatus('pizzafaucet');
+  
   const casts = await Promise.all(data[0]
     .filter(cast => !moderated.includes(cast.hash))
-    .map(async cast => {
-    const { members } = await checkMemberStatus('pizzafaucet', cast.author.fid);
-    return {
+    .map(cast =>( {
       ...cast,
-      isMember: members.filter(m => m.user.fid === cast.author.fid).length > 0
-    }
-  }))
+      isMember: members.find(m => m.user.fid == cast.author.fid) !== undefined
+    })))
 
   return casts
     .filter(cast => cast.isMember)
