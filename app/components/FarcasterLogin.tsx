@@ -222,9 +222,16 @@ export const FarcasterLoginButton = ({ setLoggedIn }: ComponentProps) => {
 
    return (
       <button
-         className="block rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-md md:text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-yellow-200 hover:text-black" type="button" onClick={openModal}
+         className="flex gap-2 items-center justify-center rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-md md:text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-yellow-200 hover:text-black"
+          type="button" onClick={openModal}
       >
-         Connect Farcaster Account
+         <svg width="20" height="20" viewBox="0 0 167 155" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path 
+               fill-rule="evenodd" clip-rule="evenodd" 
+               d="M55.8902 155H0.999897V149C0.999897 146.239 3.23865 144 6.00007 144H6.99998V138C6.99998 135.239 9.2385 133 11.9999 133V43.9999H6.50002L0 21.9999H29V0H138V21.9999H167L160.5 43.9999H155V133C157.762 133 160 135.239 160 138V144H161C163.761 144 166 146.239 166 149V155H111.171V149C111.171 146.239 113.41 144 116.172 144H117.171V138C117.171 135.296 119.318 133.093 122 133.003V84C120.231 64.3773 103.583 48.9999 83.5 48.9999C63.4169 48.9999 46.7685 64.3773 45 84V133.001C47.7106 133.06 49.8902 135.275 49.8902 138V141V144H50.8901C53.6515 144 55.8902 146.239 55.8902 149V155Z" fill="#855DCD"
+            />
+         </svg>
+         <span className="pt-1">Connect Farcaster Account</span>
          <FarcasterLogin toggle={toggle} setToggle={setToggle} setLoggedIn={setLoggedIn} />
       </button>
    )
