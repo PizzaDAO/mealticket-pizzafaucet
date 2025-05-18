@@ -27,10 +27,9 @@ export const Instructions = (props: Props) => {
     setLoggedIn(!!localStorage.getItem("faucet_user_isLoggedIn"))
     if (isLoggedIn) {
       (async () => {
-        const { fid, signer_uuid }: Signer = JSON.parse(localStorage.getItem("faucet_user_signer") ?? "")
+        const { fid, signer_uuid }: Signer = JSON.parse(localStorage.getItem("faucet_user_signer") ?? "{}")
         await checkMemberStatus(fid ?? 0)
         console.log(isMember, signer_uuid)
-        if (!isMember) await sendInvite(fid ?? 0)
       })()
     }
   }, [isLoggedIn])

@@ -23,11 +23,21 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
    const [loading, setLoading] = useState(false)
    const [status, setStatus] = useState("")
    const [success, setSuccess] = useState(false)
+   const [statusLoading, setStatusLoading] = useState(false)
 
    const [statusUpdateFailed, setStatusUpdateFailed] = useState(false)
    const [statusMsg, setStatusMsg] = useState('')
 
    useEffect(() => {
+      if (!isMember) {
+         (async () => {
+            setStatusLoading(true)
+            const { fid }: Signer = JSON.parse(localStorage.getItem('faucet_user_signer') ?? '')
+            await sendInvite(fid ?? 0)
+            setStatusLoading(false)
+         })()
+      }
+
       if (toggle && isMember)
          (async () => {
             await sendCast()
@@ -36,6 +46,18 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
 
    const closeModal = () => {
       setToggle(false)
+   }
+
+   const sendInvite = async (fid: number) => {
+      const reqData = {
+         channelId, fid
+      }
+      const res = await fetch('/api/send-invite', {
+         method: 'POST',
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify(reqData)
+      })
+      console.log(res)
    }
 
    const acceptInvite = async () => {
@@ -51,7 +73,7 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
          setStatusMsg(message ?? "failed to update member")
       }
       if (success) {
-         await checkMemberStatus(fid ?? 0)
+         // await checkMemberStatus(fid ?? 0)
       }
    }
 
@@ -97,29 +119,48 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
          {
             !isMember &&
             <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-               {  !statusUpdateFailed && 
-                  <DialogPanel className="w-full flex flex-col items-center gap-4 max-w-lg rounded-xl border bg-yellow-50 p-5 font-sans lg:p-8">
-                     <DialogTitle className="w-full text-left font-display text-2xl font-bold">
-                        Accept Pizzafaucet Membership Invitation
-                     </DialogTitle>
-                     <div className="flex gap-4">
-                        <button
-                           className="block rounded-3xl border-2 border-black/50 bg-green-200 px-8 pb-2.5 pt-3.5 text-center font-display text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-green-300 hover:text-black" onClick={acceptInvite}
-                        >
-                           Accept
-                        </button>
-                        <button
-                           className="block rounded-3xl border-2 border-black/50 bg-red-200 px-8 pb-2.5 pt-3.5 text-center font-display text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-red-300 hover:text-black" onClick={closeModal}
-                        >
-                           Cancel
-                        </button>
-                     </div>
-                  </DialogPanel>
-               }
-               {
-                  statusUpdateFailed && 
-                  <div>{ statusMsg }</div>
-               }
+
+               <DialogPanel className="w-full flex flex-col items-center gap-4 max-w-lg rounded-xl border bg-yellow-50 p-5 font-sans lg:p-8">
+                  {
+                     statusLoading &&
+                     <>
+                        <div className={'qr-code-image flex-col items-center'}>
+                           <svg className="animate-spin h-20 w-20 text-gray-500" viewBox="0 0 24 24" fill="none">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                              <path
+                                 className="opacity-75"
+                                 fill="currentColor"
+                                 d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 11-8 8z"
+                              />
+                           </svg>
+                           <p className='instructions'>processing invite</p>
+                        </div>
+                     </>
+                  }
+                  { !statusLoading && !statusUpdateFailed &&
+                     <>
+                        <DialogTitle className="w-full text-left font-display text-2xl font-bold">
+                           Accept Pizzafaucet Membership Invitation
+                        </DialogTitle>
+                        <div className="flex gap-4">
+                           <button
+                              className="block rounded-3xl border-2 border-black/50 bg-green-200 px-8 pb-2.5 pt-3.5 text-center font-display text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-green-300 hover:text-black" onClick={acceptInvite}
+                           >
+                              Accept
+                           </button>
+                           <button
+                              className="block rounded-3xl border-2 border-black/50 bg-red-200 px-8 pb-2.5 pt-3.5 text-center font-display text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-red-300 hover:text-black" onClick={closeModal}
+                           >
+                              Cancel
+                           </button>
+                        </div>
+                     </>
+                  }
+                  {
+                     !statusLoading && statusUpdateFailed &&
+                     <div>{statusMsg}</div>
+                  }
+               </DialogPanel>
             </div>
          }
          {
