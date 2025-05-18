@@ -61,6 +61,7 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
    }
 
    const acceptInvite = async () => {
+      setStatusLoading(true)
       const { signer_uuid: signerId, fid }: Signer = JSON.parse(localStorage.getItem('faucet_user_signer') ?? '')
       const reqData = { channelId, signerId }
       const res = await fetch('/api/accept-invite', {
@@ -68,12 +69,13 @@ export const MemberStatusModal = ({ channelId, toggle, setToggle, castData, isMe
          method: 'PUT', body: JSON.stringify(reqData)
       })
       const { success, message }: OperationResponse = await res.json()
+      setStatusLoading(false)
       if (!success) {
          setStatusUpdateFailed(true)
          setStatusMsg(message ?? "failed to update member")
       }
       if (success) {
-         // await checkMemberStatus(fid ?? 0)
+         await checkMemberStatus(fid ?? 0)
       }
    }
 
