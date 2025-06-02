@@ -3,16 +3,13 @@
 import { CastWithInteractions } from "../libs/farcaster"
 import { useEffect, useState } from 'react';
 import { Cast } from "./Cast";
-import { Reimbursment } from "../libs/reimburments";
 
-export const Casts = ({ channelCasts, hawkieCastStore }: {channelCasts: Promise<CastWithInteractions[]>, hawkieCastStore: Promise<Reimbursment[]>}) => {
+export const Casts = ({ channelCasts }: {channelCasts: Promise<CastWithInteractions[]>}) => {
 
    const [casts, setCasts] = useState<CastWithInteractions[] | undefined >(undefined);
 
    useEffect(() => {
       (async () => {
-         const hawkieCast = await hawkieCastStore;
-         console.log("Hawkie cast", hawkieCast.find(cast => cast.castHash === '0x2e02a0167009d1335f46b1e585321b231d400b24'));
          setCasts(await channelCasts);
       })()
    }, [channelCasts])
