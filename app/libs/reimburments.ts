@@ -33,3 +33,11 @@ export async function storeReimbursment(reimbursment: Reimbursment) {
 
   return newReimbursments;
 }
+
+export async function storeHawkieReimbursment() {
+  const reimbursment: Reimbursment = { 
+    castHash: '0x2e02a0167009d1335f46b1e585321b231d400b24', 
+    transactionHash: '0x0a010b37899ad59463f95c9cb2b157d23009b7742929b54ca558041ff34f4991' 
+  };
+  return storeReimbursment(reimbursment);
+}
