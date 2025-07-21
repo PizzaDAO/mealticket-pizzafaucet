@@ -78,10 +78,10 @@ export async function getFarcasterMetadata(): Promise<FrameManifest> {
   // First check for FRAME_METADATA in .env and use that if it exists;
 
   const accountAssociation = {
-    header: "",
-    payload: "",
-    signature: ""
-  };
+    header: "eyJmaWQiOjQzMTMwNywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDQ3NDVjMDY3NWI1QjZBMTY0REUzNDAxY2M5NzhGZjVkYjZFQ2ExREUifQ",
+    payload: "eyJkb21haW4iOiJwaXp6YWZhdWNldC54eXoifQ",
+    signature: "MHg0NzUxNzViM2NkNDk1MmZiZWM4MWQyYzhjODMyNWJkMjBkNjFkMTZkYmRlYmRiYjY3YzA0Mzc0YzU0YWJkNzA0MDUxOGQzZGRkYzdmMmQ4Njc0ZjI4MTJiYTc1MTI0ZjEwMTUxNDViNzYyMTAyNGEzYzYxNmY4MjUyMDM4MjliMjFj"
+  }
 
   return {
     accountAssociation,
