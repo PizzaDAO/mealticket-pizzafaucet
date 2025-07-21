@@ -78,9 +78,9 @@ export async function getFarcasterMetadata(): Promise<FrameManifest> {
   // First check for FRAME_METADATA in .env and use that if it exists;
 
   const accountAssociation = {
-    header: "encodedHeader",
-    payload: "encodedPayload",
-    signature: "encodedSignature"
+    header: "",
+    payload: "",
+    signature: ""
   };
 
   return {
