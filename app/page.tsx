@@ -5,6 +5,24 @@ import { ConnectWalletButton } from "./components/ConnectWalletButton";
 import Logo from "./images/logo.png";
 import { Instructions } from "./components/Instructions";
 import { FarcasterProfile } from "./components/FarcasterLogin";
+import { farcaster } from "./lib/farcaster/client";
+
+import { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const imageUrl = ""
+  return {
+    title: "pizza faucet",
+    openGraph: {
+      title: "pizza faucet",
+      description: "your one and only faucet for pizza",
+      images: [imageUrl],
+    },
+    other: {
+      "fc:frame": JSON.stringify(getFrameEmbedMetadata()),
+    },
+  };
+}
 
 const CHANNEL_ID = "pizzafaucet";
 
