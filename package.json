@@ -27,6 +27,7 @@
     "@solana/wallet-adapter-react": "^0.15.38",
     "boring-avatars": "^1.11.2",
     "classnames": "^2.5.1",
+    "inquirer": "^12.6.3",
     "connectkit": "^1.8.2",
     "date-fns": "^3.6.0",
     "linkify-react": "^4.2.0",
