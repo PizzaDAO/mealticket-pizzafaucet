@@ -1,6 +1,6 @@
 
 import { NextRequest, NextResponse } from "next/server";
-import { farcaster } from "../../libs/farcaster/client";
+import { farcaster } from "../../lib/farcaster/client";
 import { mnemonicToAccount } from "viem/accounts";
 import { ViemLocalEip712Signer } from "@farcaster/hub-nodejs";
 import { bytesToHex, hexToBytes } from "viem";

@@ -1,6 +1,6 @@
 'use client'
 
-import { CastWithInteractions } from "../libs/farcaster"
+import { CastWithInteractions } from "../lib/farcaster"
 import { useEffect, useState } from 'react';
 import { Cast } from "./Cast";
 

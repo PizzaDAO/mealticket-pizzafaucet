@@ -1,7 +1,7 @@
 import "server-only";
 
 import { Cast } from "@/app/components/Cast";
-import { getChannelCasts } from "@/app/libs/farcaster";
+import { getChannelCasts } from "@/app/lib/farcaster";
 import { Suspense } from "react";
 import { ReimbursmentModal } from "./ReimburmentModal";
 import { Skeleton } from "./Skeleton";

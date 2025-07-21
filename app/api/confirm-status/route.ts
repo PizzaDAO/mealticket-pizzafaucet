@@ -1,6 +1,6 @@
 
 import { NextRequest, NextResponse } from "next/server";
-import { farcaster } from "../../libs/farcaster/client";
+import { farcaster } from "../../lib/farcaster/client";
 
 export async function POST(req: NextRequest) {
    try {

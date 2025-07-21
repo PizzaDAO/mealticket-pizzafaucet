@@ -1,4 +1,4 @@
-import { useReimbursement } from "../libs/ReimbursementProvider";
+import { useReimbursement } from "../lib/ReimbursementProvider";
 
 export const TransactionStatus = () => {
   const { isConfirmed, isPending, isConfirming, hash, error } = useReimbursement();

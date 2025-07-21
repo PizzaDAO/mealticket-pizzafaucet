@@ -1,6 +1,6 @@
 
 
-import { checkMemberStatus } from "@/app/libs/farcaster/checkMemberStatus";
+import { checkMemberStatus } from "@/app/lib/farcaster/checkMemberStatus";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

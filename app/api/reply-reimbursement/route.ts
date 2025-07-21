@@ -1,5 +1,5 @@
 
-import { respondToReimbursementCast } from "@/app/libs/farcaster";
+import { respondToReimbursementCast } from "@/app/lib/farcaster";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

@@ -1,8 +1,8 @@
 "use client";
 
 import { ConnectKitButton } from "connectkit";
-import { useReimbursement } from "../libs/ReimbursementProvider";
-import { CastWithInteractions } from "../libs/farcaster";
+import { useReimbursement } from "../lib/ReimbursementProvider";
+import { CastWithInteractions } from "../lib/farcaster";
 
 interface Props {
   cast: CastWithInteractions;

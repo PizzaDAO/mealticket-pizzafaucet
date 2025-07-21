@@ -1,10 +1,11 @@
 
 import { NextRequest, NextResponse } from "next/server";
-import { farcaster } from "../../libs/farcaster/client";
+import { farcaster } from "../../lib/farcaster/client";
 import { ChannelMemberRole, PostCastReqBodyEmbeds } from "@neynar/nodejs-sdk/build/api";
 
 export async function PUT(req: NextRequest) {
    const body = await req.json()
+   console.log(body)
    try {
       const res = await farcaster.respondChannelInvite({
          signerUuid: body.signerId,

@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { Gluten, Rubik } from "next/font/google";
 import React, { PropsWithChildren } from "react";
 import "./globals.css";
-import { ReimbursementProvider } from "./libs/ReimbursementProvider";
-import Wagmi from "./libs/wagmi/WagmiProvider";
+import { Providers } from "./providers";
+import { getSession } from "@/auth";
 
 const sans = Rubik({ subsets: ["latin"], variable: "--font-sans" });
 const display = Gluten({ subsets: ["latin"], variable: "--font-display" });
@@ -15,17 +15,16 @@ export const metadata: Metadata = {
 };
 
 
-export default function RootLayout({ children }: PropsWithChildren) {
+export default async function RootLayout({ children }: PropsWithChildren) {
+  const session = await getSession()
   return (
     <html lang="en">
       <body
         className={`${sans.variable} ${display.variable} overscroll-none bg-yellow-400 text-black`}
       >
-          <Wagmi>
-            <ReimbursementProvider>
-              {children}
-            </ReimbursementProvider>
-          </Wagmi>
+          <Providers session={session}>
+            { children }
+          </Providers>
       </body>
     </html>
   );

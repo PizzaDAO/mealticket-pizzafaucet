@@ -1,4 +1,4 @@
-import { timeSince, timeSinceShort } from "@/app/libs/numbers";
+import { timeSince, timeSinceShort } from "@/app/lib/numbers";
 import { isBefore } from "date-fns/isBefore";
 import { subSeconds } from "date-fns/subSeconds";
 

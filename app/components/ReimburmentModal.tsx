@@ -12,7 +12,7 @@ import {
 } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { getAddress } from "viem";
-import { useReimbursement } from "../libs/ReimbursementProvider";
+import { useReimbursement } from "../lib/ReimbursementProvider";
 import { TransactionStatus } from "./TransactionStatus";
 import { useAccount } from "wagmi";
 

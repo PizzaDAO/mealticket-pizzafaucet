@@ -8,6 +8,7 @@ import { FarcasterProfile } from "./components/FarcasterLogin";
 import { farcaster } from "./lib/farcaster/client";
 
 import { Metadata } from "next";
+import { getFrameEmbedMetadata } from "./lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
   const imageUrl = ""
@@ -27,13 +28,20 @@ export async function generateMetadata(): Promise<Metadata> {
 const CHANNEL_ID = "pizzafaucet";
 
 export default function Home() {
+
+  const getProfile = async(fid: number) => {
+    "use server"
+    const { users } = await farcaster.fetchBulkUsers({ fids: [fid] })
+    return users.find(user => user.fid === fid)
+  }
+
   return (
     <>
       <nav className="z-50 bg-yellow-400 mx-auto flex max-w-screen-xl items-center justify-between px-4 py-4 lg:sticky lg:top-0 lg:px-6">
         <Image src={Logo} alt="Pizza Faucet" className="h-6 w-auto lg:h-8" />
         <div className="flex gap-3 items-center">
           <ConnectWalletButton />
-          {/* <FarcasterProfile /> */}
+          <FarcasterProfile getProfile={getProfile}  />
         </div>
       </nav>
 

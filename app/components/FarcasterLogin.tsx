@@ -1,16 +1,16 @@
 'use client'
 
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
+import { Dispatch, SetStateAction, use, useEffect, useRef, useState } from "react"
 import {
    Dialog,
    DialogBackdrop,
    DialogPanel,
    DialogTitle,
 } from "@headlessui/react";
-import { appClient } from "../libs/farcaster/loginConfig";
+import { appClient } from "../lib/farcaster/loginConfig";
 import { QRCodeDialog } from "./qr-code";
 import { StatusAPIResponse } from "@farcaster/auth-client";
-import { Signer } from "@neynar/nodejs-sdk/build/api";
+import { Signer, User } from "@neynar/nodejs-sdk/build/api";
 
 type ComponentProps = {
    isLoggedIn: boolean,
@@ -23,8 +23,10 @@ type Props = {
    setLoggedIn: Dispatch<SetStateAction<boolean>>
 }
 
-export const FarcasterProfile = () => {
+export const FarcasterProfile = ({ getProfile }: { getProfile: (fid: number) => Promise<User | undefined> }) => {
    const [open, setOpen] = useState(false);
+   const [loggedIn, setLoggedIn] = useState(false)
+   const [user, setUser] = useState<User | undefined>(undefined)
    const dropdownRef = useRef<HTMLDivElement>(null);
 
    // Close dropdown when clicking outside
@@ -38,39 +40,56 @@ export const FarcasterProfile = () => {
       return () => document.removeEventListener('mousedown', handleClickOutside);
    }, []);
 
+   useEffect(() => {
+      async function fetchProfile(fid: number) {
+         const user = await getProfile(fid)
+         setUser(user)
+      }
+      
+      if (loggedIn) return
+
+      const isLoggedIn = localStorage.getItem("faucet_user_isLoggedIn")
+      if (isLoggedIn) {
+         const { fid } = JSON.parse(localStorage.getItem("faucet_user_signer") ?? "{}")
+         setLoggedIn(true)
+         fetchProfile(fid)
+      }
+   }, [loggedIn, getProfile])
+
    const handleLogout = () => {
       console.log('Logging out...');
       localStorage.removeItem("faucet_user_signer")
       localStorage.removeItem("faucet_user_isLoggedIn")
+      setLoggedIn(false)
       window.location.reload()
-      // Add your logout logic here
    };
 
-   return (
-      <div className="relative inline-block text-left" ref={dropdownRef}>
-         <button
-            onClick={() => setOpen(!open)}
-            className="rounded-full overflow-hidden w-10 h-10 border border-gray-300"
-         >
-            <img
-               src="/avatar.png"
-               alt="Avatar"
-               className="w-full h-full object-cover"
-            />
-         </button>
+   if (loggedIn)
+      return (
+         <div className="relative inline-block text-left" ref={dropdownRef}>
+            <button
+               onClick={() => setOpen(!open)}
+               className="rounded-full overflow-hidden w-10 h-10 border border-gray-300"
+            >
+               <img
+                  src={user?.pfp_url}
+                  alt="Avatar"
+                  className="w-full h-full object-cover"
+               />
+            </button>
 
-         {open && (
-            <div className="absolute right-0 mt-2 w-40 bg-white border rounded-md shadow-lg z-10">
-               <button
-                  onClick={handleLogout}
-                  className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
-               >
-                  Logout
-               </button>
-            </div>
-         )}
-      </div>
-   );
+            {open && (
+               <div className="absolute right-0 mt-2 w-40 bg-white border rounded-md shadow-lg z-10">
+                  <button
+                     onClick={handleLogout}
+                     className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+                  >
+                     Logout
+                  </button>
+               </div>
+            )}
+         </div>
+      );
 }
 
 export const FarcasterLogin = ({ setLoggedIn, toggle, setToggle }: Props) => {
