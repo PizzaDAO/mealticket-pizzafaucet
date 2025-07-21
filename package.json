@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "node scripts/dev.js",
-    "build": "node scripts/build.js",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "deploy:vercel": "node scripts/deploy.js",
