@@ -58,7 +58,7 @@ export function getFrameEmbedMetadata(ogImageUrl?: string) {
     version: "next",
     imageUrl: ogImageUrl ?? APP_OG_IMAGE_URL,
     button: {
-      title: APP_BUTTON_TEXT,
+      title: APP_BUTTON_TEXT ?? "The Pizza Faucet",
       action: {
         type: "launch_frame",
         name: APP_NAME ?? "PizzaFaucet",
