@@ -2,7 +2,7 @@
 import { Metadata } from "next";
 import { getFrameEmbedMetadata } from "./lib/utils";
 import App from "./app";
-import { getChannelCasts, getChannelFeed } from "./lib/farcaster";
+import { getChannelCasts } from "./lib/farcaster";
 
 export async function generateMetadata(): Promise<Metadata> {
   const imageUrl = ""

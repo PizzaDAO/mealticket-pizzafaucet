@@ -4,7 +4,8 @@ import { Gluten, Rubik } from "next/font/google";
 import React, { PropsWithChildren } from "react";
 import "./globals.css";
 import { Providers } from "./providers";
-import { getSession } from "@/auth";
+import { getSession } from "@/app/auth";
+import { ReimbursementProvider } from "./lib/ReimbursementProvider";
 
 const sans = Rubik({ subsets: ["latin"], variable: "--font-sans" });
 const display = Gluten({ subsets: ["latin"], variable: "--font-display" });
@@ -23,7 +24,9 @@ export default async function RootLayout({ children }: PropsWithChildren) {
         className={`${sans.variable} ${display.variable} overscroll-none bg-yellow-400 text-black`}
       >
         <Providers session={session}>
-          {children}
+          <ReimbursementProvider>
+            {children}
+          </ReimbursementProvider>
         </Providers>
       </body>
     </html>

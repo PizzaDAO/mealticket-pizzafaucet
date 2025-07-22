@@ -54,7 +54,7 @@ export function Cast(props: Props) {
             </div>
           </div>
         </div>
-        <CastAction cast={cast} />
+        {/* <CastAction cast={cast} /> */}
       </div>
       <div className="mt-2.5 overflow-hidden whitespace-pre-line text-sm">
         <Linkify
