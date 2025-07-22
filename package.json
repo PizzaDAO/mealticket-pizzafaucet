@@ -1,0 +1,68 @@
+{
+  "name": "PizzaFaucet",
+  "version": "0.1.0",
+  "type": "module",
+  "private": false,
+  "access": "public",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./bin/init.js"
+    }
+  },
+  "types": "./index.d.ts",
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "build": "next build",
+    "build:raw": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "deploy:vercel": "node --loader ts-node/esm scripts/deploy.ts",
+    "deploy:raw": "vercel --prod",
+    "cleanup": "node scripts/cleanup.js"
+  },
+  "dependencies": {
+    "@farcaster/auth-client": ">=0.3.0 <1.0.0",
+    "@farcaster/miniapp-node": ">=0.1.5 <1.0.0",
+    "@farcaster/miniapp-sdk": ">=0.1.6 <1.0.0",
+    "@farcaster/miniapp-wagmi-connector": "^1.0.0",
+    "@farcaster/mini-app-solana": ">=0.0.17 <1.0.0",
+    "@farcaster/quick-auth": ">=0.0.7 <1.0.0",
+    "@neynar/react": "^1.2.5",
+    "@radix-ui/react-label": "^2.1.1",
+    "@solana/wallet-adapter-react": "^0.15.38",
+    "@tanstack/react-query": "^5.61.0",
+    "@upstash/redis": "^1.34.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^16.4.7",
+    "lucide-react": "^0.469.0",
+    "mipd": "^0.0.7",
+    "next": "^15",
+    "react": "^19",
+    "react-dom": "^19",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7",
+    "viem": "^2.23.6",
+    "wagmi": "^2.14.12",
+    "zod": "^3.24.2",
+    "siwe": "^3.0.0",
+    "@neynar/nodejs-sdk": "^2.19.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.8",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vercel/sdk": "^1.9.0",
+    "crypto": "^1.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "15.0.3",
+    "localtunnel": "^2.0.2",
+    "pino-pretty": "^13.0.0",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
+  }
+}
