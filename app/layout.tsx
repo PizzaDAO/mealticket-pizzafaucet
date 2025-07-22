@@ -22,9 +22,9 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       <body
         className={`${sans.variable} ${display.variable} overscroll-none bg-yellow-400 text-black`}
       >
-          <Providers session={session}>
-            { children }
-          </Providers>
+        <Providers session={session}>
+          {children}
+        </Providers>
       </body>
     </html>
   );

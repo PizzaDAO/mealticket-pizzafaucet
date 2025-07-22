@@ -1,24 +1,29 @@
-import "server-only";
 
 import { Cast } from "@/app/components/Cast";
-import { getChannelCasts } from "@/app/lib/farcaster";
-import { Suspense } from "react";
+import { CastWithInteractions } from "@/app/lib/farcaster";
 import { ReimbursmentModal } from "./ReimburmentModal";
-import { Skeleton } from "./Skeleton";
-import { Casts } from "./Casts";
 
 interface Props {
-  channelId: string;
+  casts: Array<CastWithInteractions>
 }
 
-export const ChannelCasts = (props: Props) => {
-  const { channelId } = props;
+export const ChannelCasts = ({ casts }: Props) => {
 
   return (
     <div className="max-sm:space-y-2 sm:space-y-4 overflow-auto">
       <ReimbursmentModal />
       <h3 className="font-display text-xl font-bold">Recent requests</h3>
-      <Casts channelCasts={getChannelCasts(channelId)} />
+      {
+        casts && casts.map(cast => (
+          <Cast cast={cast} key={cast.hash} />
+        ))}
+      {
+        casts && casts.length === 0 && (
+          <div className="text-center font-sans text-lg font-medium md:col-span-full">
+            No casts found yet...
+          </div>
+        )
+      }
     </div>
   );
 };
