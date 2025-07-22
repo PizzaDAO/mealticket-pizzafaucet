@@ -1,7 +1,7 @@
 "use client";
 
+import { CastWithInteractions } from "@neynar/nodejs-sdk/build/api";
 import dynamic from "next/dynamic";
-import { APP_NAME } from "~/lib/constants";
 
 // note: dynamic import is required for components that use the Frame SDK
 const AppComponent = dynamic(() => import("~/components/App"), {
@@ -9,7 +9,7 @@ const AppComponent = dynamic(() => import("~/components/App"), {
 });
 
 export default function App(
-  { title }: { title?: string } = { title: APP_NAME }
+  { casts }: { casts: Array<CastWithInteractions> }
 ) {
-  return <AppComponent title={title} />;
+  return <AppComponent casts={casts} />;
 }

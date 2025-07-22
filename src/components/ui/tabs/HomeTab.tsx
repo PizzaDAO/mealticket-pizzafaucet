@@ -14,10 +14,16 @@
  */
 export function HomeTab() {
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-200px)] px-6">
+    <div className="flex justify-center h-[calc(100vh-200px)] px-6">
       <div className="text-center w-full max-w-md mx-auto">
-        <p className="text-lg mb-2">Put your content here!</p>
-        <p className="text-sm text-gray-500 dark:text-gray-400">Powered by Neynar 🪐</p>
+         <div className="lg:sticky lg:top-[136px]">
+          <h2 className="flex gap-2 font-display text-5xl font-bold sm:text-[82px]">
+              Pizza <span className="text-red-500 inline-block"> Faucet</span>
+          </h2>
+          <p className="mb-12 text-right text-xl font-medium text-yellow-950 lg:text-3xl">
+              A Free and Open faucet designed to bring pizza to the people.
+          </p>
+        </div>
       </div>
     </div>
   );

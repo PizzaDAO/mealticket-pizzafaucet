@@ -1,4 +1,3 @@
-import { type AccountAssociation } from '@farcaster/miniapp-core/src/manifest';
 
 /**
  * Application constants and configuration values.
@@ -67,13 +66,9 @@ export const APP_SPLASH_URL: string = `${APP_URL}/splash.png`;
  */
 export const APP_SPLASH_BACKGROUND_COLOR: string = '#f7f7f7';
 
-/**
- * Account association for the mini app.
- * Used to associate the mini app with a Farcaster account.
- * If not provided, the mini app will be unsigned and have limited capabilities.
- */
-export const APP_ACCOUNT_ASSOCIATION: AccountAssociation | undefined =
-  undefined;
+export const CHANNEL_ID = "pizzafaucet"
+
+export const BASE_USDC_ADDRESS = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 
 // --- UI Configuration ---
 /**

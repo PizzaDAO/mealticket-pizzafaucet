@@ -5,6 +5,7 @@ import { MiniAppProvider } from '@neynar/react';
 import { SafeFarcasterSolanaProvider } from '~/components/providers/SafeFarcasterSolanaProvider';
 import { ANALYTICS_ENABLED } from '~/lib/constants';
 import React, { useState, useEffect } from 'react';
+import { ReimbursementProvider } from '~/components/providers/ReimbursementProvider';
 
 const WagmiProvider = dynamic(
   () => import('~/components/providers/WagmiProvider'),
@@ -122,7 +123,9 @@ export function Providers({
       >
         <SafeFarcasterSolanaProvider endpoint={solanaEndpoint}>
           <AuthProviders session={session} shouldUseSession={shouldUseSession}>
-            {children}
+            <ReimbursementProvider>
+              {children}
+            </ReimbursementProvider>
           </AuthProviders>
         </SafeFarcasterSolanaProvider>
       </MiniAppProvider>

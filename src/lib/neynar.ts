@@ -1,5 +1,6 @@
 import { NeynarAPIClient, Configuration, WebhookUserCreated } from '@neynar/nodejs-sdk';
 import { APP_URL } from './constants';
+import { CastWithInteractions } from '@neynar/nodejs-sdk/build/api';
 
 let neynarClient: NeynarAPIClient | null = null;
 
@@ -29,6 +30,39 @@ export async function getNeynarUser(fid: number): Promise<User | null> {
     console.error('Error getting Neynar user:', error);
     return null;
   }
+}
+
+export const checkMemberStatus = async (channelId: string, fid?: number) => {
+  const client = getNeynarClient() 
+   return await client.fetchChannelMembers({
+      channelId, fid
+   })
+}
+
+export const getChannelFeed = async (channelId: string) => {
+  const client = getNeynarClient();
+  let cursor: undefined | string = undefined;
+  let allCasts: CastWithInteractions[] = [];
+
+  do {
+    try {
+      const feed = await client.fetchFeedByChannelIds({
+        channelIds: [channelId],
+        limit: 100,
+        cursor: cursor || undefined,
+        shouldModerate: false,
+        withRecasts: false,
+        withReplies: false,
+      });
+
+      allCasts = allCasts.concat(feed.casts);
+      cursor = feed.next.cursor || undefined;
+    } catch (error) {
+      console.log(error)
+    }
+  } while (cursor)
+
+  return allCasts;
 }
 
 type SendMiniAppNotificationResult =

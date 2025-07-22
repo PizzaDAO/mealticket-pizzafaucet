@@ -1,8 +1,12 @@
 import type { Metadata } from 'next';
+import { Gluten, Rubik } from "next/font/google";
 
 import '~/app/globals.css';
 import { Providers } from '~/app/providers';
 import { APP_NAME, APP_DESCRIPTION } from '~/lib/constants';
+
+const sans = Rubik({ subsets: ["latin"], variable: "--font-sans" });
+const display = Gluten({ subsets: ["latin"], variable: "--font-display" });
 
 export const metadata: Metadata = {
   title: APP_NAME,
@@ -22,8 +26,8 @@ export default async function RootLayout({
   let session = null;
   if (shouldUseSession) {
     try {
-      const { getSession } = await import('~/auth');
-      session = await getSession();
+      // const { getSession } = await import('~/auth');
+      // session = await getSession();
     } catch (error) {
       console.warn('Failed to get session:', error);
     }
@@ -31,7 +35,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body>
+      <body
+        className={`${sans.variable} ${display.variable} overscroll-none bg-yellow-400 text-black`}
+      >
         <Providers session={session} shouldUseSession={shouldUseSession}>
           {children}
         </Providers>
