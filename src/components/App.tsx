@@ -8,7 +8,8 @@ import { ChannelCasts, Instructions } from "~/components/ui/tabs";
 import { CHANNEL_ID, USE_WALLET } from "~/lib/constants";
 import { useNeynarUser } from "../hooks/useNeynarUser";
 import { Rubik, Gluten } from "next/font/google";
-import { CastWithInteractions } from "@neynar/nodejs-sdk/build/api";
+import { Cast } from "~/lib/neynar";
+import sdk from "@farcaster/miniapp-sdk";
 
 // --- Types ---
 export enum Tab {
@@ -19,7 +20,7 @@ export enum Tab {
 }
 
 export interface AppProps {
-  casts: Array<CastWithInteractions>
+  getCasts: (channelId: string) => Promise<Cast[]>;
 }
 
 
@@ -27,7 +28,7 @@ const sans = Rubik({ subsets: ["latin"], variable: "--font-sans" });
 const display = Gluten({ subsets: ["latin"], variable: "--font-display" });
 
 export default function App(
-  { casts }: AppProps
+  { getCasts }: AppProps
 ) {
   // --- Hooks ---
   const {
@@ -50,9 +51,12 @@ export default function App(
    * prevent errors during initialization.
    */
   useEffect(() => {
-    if (isSDKLoaded) {
-      setInitialTab(Tab.Actions);
-    }
+    (async () => {
+      if (isSDKLoaded) {
+        await sdk.actions.ready();
+        setInitialTab(Tab.Actions);
+      }
+    })()
   }, [isSDKLoaded, setInitialTab]);
 
   // --- Early Returns ---
@@ -98,7 +102,7 @@ export default function App(
         </div>
         {/* Tab content rendering */}
         {currentTab === Tab.Actions && <Instructions channelId={CHANNEL_ID} />}
-        {currentTab === Tab.Context && <ChannelCasts casts={casts} />}
+        {currentTab === Tab.Context && <ChannelCasts getCasts={getCasts} />}
 
         {/* Footer with navigation */}
         <Footer activeTab={currentTab as Tab} setActiveTab={setActiveTab} showWallet={USE_WALLET} />

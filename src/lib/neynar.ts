@@ -19,6 +19,8 @@ export function getNeynarClient() {
   return neynarClient;
 }
 
+export type Cast = { isMember: boolean } & CastWithInteractions;
+
 type User = WebhookUserCreated['data'];
 
 export async function getNeynarUser(fid: number): Promise<User | null> {

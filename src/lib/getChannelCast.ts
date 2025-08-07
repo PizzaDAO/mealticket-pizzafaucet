@@ -1,5 +1,5 @@
 
-import { checkMemberStatus, getChannelFeed } from "./neynar";
+import { Cast, checkMemberStatus, getChannelFeed } from "./neynar";
 
 interface ModeratedCast {
   castHash: string;
@@ -9,7 +9,7 @@ interface ModeratedCast {
 }
 
 
-export const getChannelCasts = async (channelId: string) => {
+export const getChannelCasts = async (channelId: string): Promise<Cast[]> => {
 
   const data = await Promise.all([getChannelFeed(channelId), getModeratedCast(channelId)]);
 
