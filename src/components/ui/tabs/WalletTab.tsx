@@ -10,7 +10,7 @@ import { renderError } from "../../../lib/errorUtils";
 import { SignEvmMessage } from "../wallet/SignEvmMessage";
 import { SendEth } from "../wallet/SendEth";
 import { SignSolanaMessage } from "../wallet/SignSolanaMessage";
-import { SendSolana } from "../wallet/SendSolana";
+// import { SendSolana } from "../wallet/SendSolana";
 import { USE_WALLET, APP_NAME } from "../../../lib/constants";
 import { useMiniApp } from "@neynar/react";
 
@@ -342,7 +342,7 @@ export function WalletTab() {
       {solanaPublicKey && (
         <>
           <SignSolanaMessage signMessage={solanaWallet.signMessage} />
-          <SendSolana />
+          {/* <SendSolana /> */}
         </>
       )}
     </div>
