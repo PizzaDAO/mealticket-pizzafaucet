@@ -2,14 +2,7 @@
   "name": "PizzaFaucet",
   "version": "0.1.0",
   "type": "module",
-  "private": false,
-  "access": "public",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "import": "./bin/init.js"
-    }
-  },
+  "private": true,
   "types": "./index.d.ts",
   "scripts": {
     "dev": "node scripts/dev.js",
