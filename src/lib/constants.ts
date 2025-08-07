@@ -15,7 +15,7 @@
  * The base URL of the application.
  * Used for generating absolute URLs for assets and API endpoints.
  */
-export const APP_URL: string = process.env.NEXT_PUBLIC_URL!;
+export const APP_URL: string = `https://${process.env.NEXT_PUBLIC_URL!}`;
 
 /**
  * The name of the mini app as displayed to users.
