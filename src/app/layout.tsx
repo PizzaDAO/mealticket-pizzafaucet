@@ -23,7 +23,7 @@ export default async function RootLayout({
   const hasSeedPhrase = !!process.env.SEED_PHRASE;
   const shouldUseSession = sponsorSigner || hasSeedPhrase;
 
-  let session = null;
+  const session = null;
   if (shouldUseSession) {
     try {
       // const { getSession } = await import('~/auth');
