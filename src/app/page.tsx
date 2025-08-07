@@ -21,5 +21,5 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  return (<App getCasts={getChannelCasts} />);
+  return (<App getCasts={getChannelCasts(CHANNEL_ID)} />);
 }

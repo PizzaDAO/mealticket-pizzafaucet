@@ -20,7 +20,7 @@ export enum Tab {
 }
 
 export interface AppProps {
-  getCasts: (channelId: string) => Promise<Cast[]>;
+  getCasts: Promise<Cast[]>;
 }
 
 

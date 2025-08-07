@@ -9,7 +9,7 @@ const AppComponent = dynamic(() => import("~/components/App"), {
 });
 
 export default function App(
-  { getCasts }: { getCasts: (channelId: string) => Promise<Cast[]> } 
+  { getCasts }: { getCasts: Promise<Cast[]> } 
 ) {
   return <AppComponent getCasts={getCasts} />;
 }

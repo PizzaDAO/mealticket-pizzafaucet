@@ -2,11 +2,10 @@
 import { useEffect, useState } from "react";
 import { Cast } from "../Cast";
 import { Cast as CastWithInteractions  } from "~/lib/neynar";
-import { CHANNEL_ID } from "~/lib/constants";
 // import { ReimbursmentModal } from "./ReimburmentModal";
 
 interface Props {
-  getCasts: (channelId: string) => Promise<Array<CastWithInteractions>>
+  getCasts: Promise<Array<CastWithInteractions>>
 }
 
 export const ChannelCasts = ({ getCasts }: Props) => {
@@ -17,7 +16,7 @@ export const ChannelCasts = ({ getCasts }: Props) => {
   useEffect(() => { 
     (async () => {
       setLoading(true)
-      setCasts(await getCasts(CHANNEL_ID))
+      setCasts(await getCasts)
       setLoading(false)
     })()
   }, []);
