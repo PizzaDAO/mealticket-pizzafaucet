@@ -7,7 +7,7 @@ interface FooterProps {
   showWallet?: boolean;
 }
 
-export const Footer: React.FC<FooterProps> = ({ activeTab, setActiveTab, showWallet = false }) => (
+export const Footer: React.FC<FooterProps> = ({ activeTab, setActiveTab }) => (
   <div className="fixed bottom-0 left-0 right-0 mx-4 mb-4 bg-gray-100  border-[3px] border-double border-[#facc15] px-2 py-2 rounded-lg z-50">
     <div className="flex justify-around items-center h-14">
       <button
