@@ -8,7 +8,7 @@ import { put } from "@vercel/blob";
 import Image from 'next/image';
 import sdk from '@farcaster/miniapp-sdk';
 
-type Embed = [string, string]| [string] | []
+type Embed = [string, string] | [string] | []
 type ComponentProps = {
    channelId: string
 }
@@ -37,8 +37,9 @@ export default function UploadReceiptField({ channelId }: ComponentProps) {
       const files = e.target.files;
       if (!files) return;
 
-      const uploadedFiles = Array.from(files);
-      if (uploadedFiles.length + imagePreviews.length > 2) {
+      const uploadedFiles = Array.from(files).concat(images || []);
+      console.log("Uploaded Files:", uploadedFiles);
+      if (uploadedFiles.length > 2) {
          setError("images", { message: "You can upload a maximum of 2 images." });
          return;
       }
@@ -49,10 +50,13 @@ export default function UploadReceiptField({ channelId }: ComponentProps) {
          return;
       }
 
-      const previewUrls = validFiles.map((file) => URL.createObjectURL(file));
+      const valid: [] | [File] | [File, File] = validFiles.length == 2 ? [validFiles[0] as File, validFiles[1] as File] : [validFiles[0] as File];
 
-      setImagePreviews((prev) => [prev[0] as string, previewUrls[0]]);
-      setValue("images", [images[0] as File, validFiles[0]], { shouldValidate: true });
+      const previewUrls = validFiles.map((file) => URL.createObjectURL(file));
+      const urls: Embed = previewUrls.length === 2 ? [previewUrls[0] as string, previewUrls[1] as string] : [previewUrls[0] as string];
+
+      setImagePreviews((prev) => prev.length ? [prev[0] as string, previewUrls[0]] : urls);
+      setValue("images", valid, { shouldValidate: true });
       clearErrors("images"); // Clear error once valid images are added
    };
 
@@ -76,21 +80,27 @@ export default function UploadReceiptField({ channelId }: ComponentProps) {
          setError("images", { message: "Upload proof of pizza" });
          return;
       }
-      console.log("Form Data:", data);
-      const images: File[] = data.images;
-      const imageUrls = (await Promise.all(images.map((image: File) => {
-         return put(image.name, image, {
-            access: 'public',
-            token: process.env.BLOB_READ_WRITE_TOKEN
+      try {
+         console.log("Form Data:", data);
+         const images: File[] = data.images;
+         const imageUrls = (await Promise.all(images.map((image: File) => {
+            return put(image.name, image, {
+               access: 'public',
+               token: process.env.BLOB_READ_WRITE_TOKEN
+            })
+         }))).map(blob => blob.url)
+
+         const embeds: Embed = imageUrls.length === 1 ? [imageUrls[0]] : [imageUrls[0], imageUrls[1]];
+
+         await sdk.actions.composeCast({
+            text: `${data.text}\n\nCost: $${data.amount}`.trim(),
+            embeds, channelKey: channelId,
          })
-      }))).map(blob => blob.url)
-
-      const embeds : Embed = imageUrls.length === 1 ? [imageUrls[0]]  : [imageUrls[0], imageUrls[1]];
-
-      await sdk.actions.composeCast({
-         text: `${data.text}\n\nCost: $${data.amount}`.trim(),
-         embeds, channelKey: channelId,
-      })
+      } catch (error: any) {
+         console.error("Error uploading images:", error);
+         setError("images", { message: error.message || "Failed to upload images" });
+         return;
+      }
    };
 
    return (
