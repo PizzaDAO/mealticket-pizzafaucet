@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Cast } from "../Cast";
 import { Cast as CastWithInteractions  } from "~/lib/neynar";
-// import { ReimbursmentModal } from "./ReimburmentModal";
+import { ReimbursmentModal } from "../ReimburmentModal";
 
 interface Props {
   getCasts: Promise<Array<CastWithInteractions>>
@@ -19,11 +19,11 @@ export const ChannelCasts = ({ getCasts }: Props) => {
       setCasts(await getCasts)
       setLoading(false)
     })()
-  }, []);
+  }, [getCasts]); 
 
   return (
     <div className="max-sm:space-y-2 sm:space-y-4 overflow-auto">
-      {/* <ReimbursmentModal /> */}
+      <ReimbursmentModal />
       <h3 className="font-display text-xl font-bold">Recent requests</h3>
       {
         loading && <>Loading...</>

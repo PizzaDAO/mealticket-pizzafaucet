@@ -28,7 +28,7 @@ export const CastAction = (props: Props) => {
 
   return (
     <button
-      className="rounded-xl bg-green-500 px-2 pb-0.5 pt-1.5 font-display text-xs font-bold text-white shadow-md duration-100 ease-in-out hover:bg-green-400 disabled:cursor-not-allowed disabled:bg-zinc-500 lg:text-sm"
+      className="rounded-xl bg-green-500 px-2 py-1 font-display text-xs font-bold text-white shadow-md duration-100 ease-in-out hover:bg-green-400 disabled:cursor-not-allowed disabled:bg-zinc-500 lg:text-sm"
       onClick={() => openModal(cast)}
     >
       Reimburse

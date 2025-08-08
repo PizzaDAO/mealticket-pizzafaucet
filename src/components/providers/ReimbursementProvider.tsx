@@ -28,7 +28,7 @@ const ReimbursementContext = createContext<ReimbursementContextType | null>(null
 export const ReimbursementProvider = ({ children }: PropsWithChildren) => {
   const [cast, setCast] = useState<CastWithInteractions | null>(null);
   const [reimburments, setReimburments] = useState<Reimbursment[]>([]);
-  const { chainId, isConnected } = useAccount();
+  const { chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
 
   const { data: hash, writeContract, isPending, error, reset } = useWriteContract();
@@ -38,7 +38,7 @@ export const ReimbursementProvider = ({ children }: PropsWithChildren) => {
   });
 
   useEffect(() => {
-    // getReimbursments().then(setReimburments);
+    getReimbursments().then(setReimburments);
   }, []);
 
   useEffect(() => {
