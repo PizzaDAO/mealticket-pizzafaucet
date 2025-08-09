@@ -12,8 +12,7 @@ export async function POST(req: NextRequest) {
             token: process.env.BLOB_READ_WRITE_TOKEN
          })
       }))).map(blob => blob.url)
-      return NextResponse.json(
-         { imageUrls }, { status: 200 });
+      return NextResponse.json({ imageUrls }, { status: 200 });
    } catch (error) {
       console.error(error);
       return NextResponse.json({ isError: true, error: error }, { status: 500 });

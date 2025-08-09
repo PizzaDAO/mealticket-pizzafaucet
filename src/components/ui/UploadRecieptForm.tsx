@@ -83,7 +83,7 @@ export default function UploadReceiptField({ channelId }: ComponentProps) {
       const formData = new FormData()
       images.forEach((img: File) => formData.append("images", img))
       try {
-         const res = await (await fetch('/api/send-cast', {
+         const res = await (await fetch('/api/upload-image', {
             method: 'POST', body: formData
          })).json()
 
