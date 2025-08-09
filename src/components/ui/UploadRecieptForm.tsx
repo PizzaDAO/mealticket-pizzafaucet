@@ -80,17 +80,14 @@ export default function UploadReceiptField({ channelId }: ComponentProps) {
          setError("images", { message: "Upload proof of pizza" });
          return;
       }
+      const formData = new FormData()
+      images.forEach((img: File) => formData.append("images", img))
       try {
-         console.log("Form Data:", data);
-         const images: File[] = data.images;
-         const imageUrls = (await Promise.all(images.map((image: File) => {
-            return put(image.name, image, {
-               access: 'public',
-               token: process.env.BLOB_READ_WRITE_TOKEN
-            })
-         }))).map(blob => blob.url)
+         const res = await (await fetch('/api/send-cast', {
+            method: 'POST', body: formData
+         })).json()
 
-         const embeds: Embed = imageUrls.length === 1 ? [imageUrls[0]] : [imageUrls[0], imageUrls[1]];
+         const embeds: Embed = res.imageUrls.length === 1 ? [res?.imageUrls[0]] : [res?.imageUrls[0], res?.imageUrls[1]];
 
          await sdk.actions.composeCast({
             text: `${data.text}\n\nCost: $${data.amount}`.trim(),
