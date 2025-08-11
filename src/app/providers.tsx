@@ -118,7 +118,7 @@ export function Providers({
   return (
     <WagmiProvider>
       <MiniAppProvider
-        analyticsEnabled={ANALYTICS_ENABLED}
+        analyticsEnabled={false}
         backButtonEnabled={true}
       >
         <SafeFarcasterSolanaProvider endpoint={solanaEndpoint}>
