@@ -3,7 +3,6 @@
 
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { put } from "@vercel/blob";
 
 import Image from 'next/image';
 import sdk from '@farcaster/miniapp-sdk';

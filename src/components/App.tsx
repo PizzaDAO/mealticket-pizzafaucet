@@ -7,8 +7,7 @@ import { Footer } from "~/components/ui/Footer";
 import { ChannelCasts, Instructions } from "~/components/ui/tabs";
 import { CHANNEL_ID, USE_WALLET } from "~/lib/constants";
 import { useNeynarUser } from "../hooks/useNeynarUser";
-import { Rubik, Gluten } from "next/font/google";
-import { Cast } from "~/lib/neynar";
+import { Gluten } from "next/font/google";
 import sdk from "@farcaster/miniapp-sdk";
 
 // --- Types ---
@@ -19,17 +18,9 @@ export enum Tab {
   Wallet = "wallet",
 }
 
-export interface AppProps {
-  getCasts: Promise<Cast[]>;
-}
-
-
-const sans = Rubik({ subsets: ["latin"], variable: "--font-sans" });
 const display = Gluten({ subsets: ["latin"], variable: "--font-display" });
 
-export default function App(
-  { getCasts }: AppProps
-) {
+export default function App() {
   // --- Hooks ---
   const {
     isSDKLoaded,
@@ -100,7 +91,7 @@ export default function App(
         </div>
         {/* Tab content rendering */}
         {currentTab === Tab.Actions && <Instructions channelId={CHANNEL_ID} />}
-        {currentTab === Tab.Context && <ChannelCasts getCasts={getCasts} />}
+        {currentTab === Tab.Context && <ChannelCasts />}
 
         {/* Footer with navigation */}
         <Footer activeTab={currentTab as Tab} setActiveTab={setActiveTab} showWallet={USE_WALLET} />

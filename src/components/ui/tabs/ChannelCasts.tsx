@@ -1,25 +1,23 @@
 
 import { useEffect, useState } from "react";
 import { Cast } from "../Cast";
-import { Cast as CastWithInteractions  } from "~/lib/neynar";
+import { Cast as CastWithInteractions } from "~/lib/neynar";
 import { ReimbursmentModal } from "../ReimburmentModal";
 
-interface Props {
-  getCasts: Promise<Array<CastWithInteractions>>
-}
-
-export const ChannelCasts = ({ getCasts }: Props) => {
+export const ChannelCasts = () => {
 
   const [loading, setLoading] = useState(false)
   const [casts, setCasts] = useState<Array<CastWithInteractions>>([]);
 
-  useEffect(() => { 
-    (async () => {
-      setLoading(true)
-      setCasts(await getCasts)
-      setLoading(false)
-    })()
-  }, [getCasts]); 
+  useEffect(() => {
+    setLoading(true)
+    fetch("/api/get-channel-feed", {cache: "no-store"})
+      .then(async (res: Response) => {
+        console.log("Response from API:", await res.json());
+        setCasts(await res.json());
+      })
+    setLoading(false);
+  }, []);
 
   return (
     <div className="max-sm:space-y-2 sm:space-y-4 overflow-auto">
