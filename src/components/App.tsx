@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMiniApp } from "@neynar/react";
 import { Header } from "~/components/ui/Header";
 import { Footer } from "~/components/ui/Footer";
@@ -39,25 +39,23 @@ export default function App(
     currentTab,
   } = useMiniApp();
 
+  const [showAddFrame, setShowAddFrame] = useState(true)
+
   // --- Neynar user hook ---
   const { user: neynarUser } = useNeynarUser(context || undefined);
 
-  // --- Effects ---
-  /**
-   * Sets the initial tab to "home" when the SDK is loaded.
-   * 
-   * This effect ensures that users start on the home tab when they first
-   * load the mini app. It only runs when the SDK is fully loaded to
-   * prevent errors during initialization.
-   */
   useEffect(() => {
     (async () => {
       if (isSDKLoaded) {
         await sdk.actions.ready();
         setInitialTab(Tab.Actions);
       }
+      if (isSDKLoaded && showAddFrame) {
+        await sdk.actions.addFrame()
+        setShowAddFrame(false)
+      }
     })()
-  }, [isSDKLoaded, setInitialTab]);
+  }, [isSDKLoaded, setInitialTab, showAddFrame]);
 
   // --- Early Returns ---
   if (!isSDKLoaded) {
