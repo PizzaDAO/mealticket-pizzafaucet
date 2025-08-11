@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 import { CHANNEL_ID } from "~/lib/constants";
 import { getChannelCasts } from "~/lib/getChannelCast";
 
-export async function Get() {
-
+export async function GET() {
    try {
       const casts = await getChannelCasts(CHANNEL_ID);
       return NextResponse.json(casts, { status: 200 });

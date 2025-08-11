@@ -11,12 +11,12 @@ export const ChannelCasts = () => {
 
   useEffect(() => {
     setLoading(true)
-    fetch("/api/get-channel-feed", {cache: "no-store"})
+    fetch("/api/get-channel-feed", { cache: "no-store" })
       .then(async (res: Response) => {
-        console.log("Response from API:", await res.json());
+        // const casts = await res.json();
         setCasts(await res.json());
+        setLoading(false);
       })
-    setLoading(false);
   }, []);
 
   return (
