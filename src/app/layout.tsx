@@ -38,7 +38,7 @@ export default async function RootLayout({
       <body
         className={`${sans.variable} ${display.variable} overscroll-none bg-yellow-400 text-black`}
       >
-        <Providers session={session} shouldUseSession={shouldUseSession}>
+        <Providers session={session} shouldUseSession={false}>
           {children}
         </Providers>
       </body>
