@@ -5,10 +5,11 @@ import UploadReceiptField from "../UploadRecieptForm";
 
 interface Props {
   channelId: string;
+  fid?: number;
 }
 
 export const Instructions = (props: Props) => {
-  const { channelId } = props
+  const { channelId, fid } = props
   const [isMember, setMemberStatus] = useState(false)
   const [showUploadForm, setShowUploadForm] = useState(false);
 

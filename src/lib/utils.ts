@@ -33,6 +33,9 @@ interface Manifest {
     payload: string;
     signature: string;
   };
+  baseBuilder: {
+    allowedAddresses: string[]
+  }
   frame: FrameMetadata;
 }
 
@@ -78,6 +81,9 @@ export async function getFarcasterDomainManifest(): Promise<Manifest> {
 
   return {
     accountAssociation,
+    baseBuilder: {
+      "allowedAddresses": ["0x9F87e82EcE0C5E94BCdcd9d9fD68cfb984934108"]
+    },
     frame: {
       version: "1",
       name: APP_NAME ?? "PizzaFaucet",
