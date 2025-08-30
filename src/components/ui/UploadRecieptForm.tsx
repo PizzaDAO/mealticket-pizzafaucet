@@ -21,6 +21,7 @@ export interface FormData {
 
 export default function UploadReceiptField({ channelId }: ComponentProps) {
    // const [formData, setFormData] = useState<FormData>()
+   const [loading, setLoading] = useState(false);
    const { register, handleSubmit, setValue, setError, clearErrors, watch, formState: { errors }, } = useForm<FormData>({
       defaultValues: {
          images: [],
@@ -75,6 +76,7 @@ export default function UploadReceiptField({ channelId }: ComponentProps) {
    };
 
    const onSubmit = async (data: FormData) => {
+      setLoading(true);
       if (data.images.length === 0) {
          setError("images", { message: "Upload proof of pizza" });
          return;
@@ -92,9 +94,11 @@ export default function UploadReceiptField({ channelId }: ComponentProps) {
             text: `${data.text}\n\nCost: $${data.amount}`.trim(),
             embeds, channelKey: channelId,
          })
+         setLoading(false);
       } catch (error: any) {
          console.error("Error uploading images:", error);
          setError("images", { message: error.message || "Failed to upload images" });
+         setLoading(false);
          return;
       }
    };
@@ -146,9 +150,13 @@ export default function UploadReceiptField({ channelId }: ComponentProps) {
             {errors.amount && <span className='text-sm text-light text-red-700'>state the amount to be reimbursed</span>}
          </label>
          <div>
-            <input
-               className=" w-full block rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-yellow-200 hover:text-black" type='submit' value={'Submit request'}
-            />
+            {
+               loading ? <button className="w-full block rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out" disabled>Loading...</button>
+               : <input
+                  className=" w-full block rounded-3xl border-2 border-black/50 bg-yellow-50 px-8 pb-2.5 pt-3.5 text-center font-display text-xl font-bold uppercase text-black shadow-lg duration-100 ease-in-out hover:bg-yellow-200 hover:text-black"
+                  type='submit' value={'Submit request'}
+               />
+            }
          </div>
       </form>
    )

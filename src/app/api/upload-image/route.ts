@@ -9,7 +9,8 @@ export async function POST(req: NextRequest) {
       const imageUrls = (await Promise.all(images.map((image: File) => {
          return put(image.name, image, {
             access: 'public',
-            token: process.env.BLOB_READ_WRITE_TOKEN
+            token: process.env.BLOB_READ_WRITE_TOKEN,
+            allowOverwrite: true
          })
       }))).map(blob => blob.url)
       return NextResponse.json({ imageUrls }, { status: 200 });

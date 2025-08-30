@@ -25,6 +25,7 @@
 @tailwind utilities;
 
 :root {
+  --primary: #facc15;
   --background: #facc15;
   --foreground: #171717;
 }
