@@ -23,6 +23,7 @@ const display = Gluten({ subsets: ["latin"], variable: "--font-display" });
 export default function App() {
   // --- Hooks ---
   const {
+    isInMiniApp,
     isSDKLoaded,
     context,
     setInitialTab,
@@ -31,12 +32,13 @@ export default function App() {
   } = useMiniApp();
 
   const [showAddFrame, setShowAddFrame] = useState(true)
-
+  const [isMiniApp, setMiniApp] = useState(false)
   // --- Neynar user hook ---
   const { user: neynarUser } = useNeynarUser(context || undefined);
 
   useEffect(() => {
     (async () => {
+      setMiniApp(await isInMiniApp())
       if (isSDKLoaded) {
         await sdk.actions.ready();
         setInitialTab(Tab.Actions);
@@ -46,7 +48,18 @@ export default function App() {
         setShowAddFrame(false)
       }
     })()
-  }, [isSDKLoaded, setInitialTab, showAddFrame]);
+  }, [isMiniApp, isInMiniApp, isSDKLoaded, setInitialTab, showAddFrame])
+
+  if (!isMiniApp) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center font-display text-2xl">
+          Access the faucet via farcaster miniapp {'-> '}
+          <a href="https://farcaster.xyz/miniapps/-FBDC7d2Sehw/pizzafaucet" className="text-red-500 hover:underline">Pizza Faucet🍕</a>
+        </div>
+      </div>
+    )
+  } 
 
   // --- Early Returns ---
   if (!isSDKLoaded) {

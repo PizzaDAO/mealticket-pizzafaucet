@@ -90,16 +90,29 @@ export default function UploadReceiptField({ channelId }: ComponentProps) {
 
          const embeds: Embed = res.imageUrls.length === 1 ? [res?.imageUrls[0]] : [res?.imageUrls[0], res?.imageUrls[1]];
 
-         await sdk.actions.composeCast({
+         console.log("Submitting cast with data:", { ...data, embeds });
+
+         const castHash = await sdk.actions.composeCast({
             text: `${data.text}\n\nCost: $${data.amount}`.trim(),
             embeds, channelKey: channelId,
          })
-         setLoading(false);
+         if (castHash !== null) {
+            console.log("Cast submitted successfully with hash:", castHash);
+            // Reset form after successful submission
+            setImagePreviews([]);
+            setValue("images", [], { shouldValidate: false });
+            setValue("text", "Proof of Pizza @pizzadao @base", { shouldValidate: false });
+            setValue("amount", 0, { shouldValidate: false });
+            alert("Request submitted successfully!");
+         } else {
+            console.log("Failed to submit cast.");
+         }
       } catch (error: any) {
          console.error("Error uploading images:", error);
          setError("images", { message: error.message || "Failed to upload images" });
-         setLoading(false);
          return;
+      } finally {
+         setLoading(false)
       }
    };
 

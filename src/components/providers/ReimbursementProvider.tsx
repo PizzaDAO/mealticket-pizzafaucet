@@ -4,7 +4,7 @@ import { PropsWithChildren, createContext, useContext, useEffect, useState } fro
 import { BaseError, parseAbi, parseEther } from "viem";
 import { base } from "viem/chains";
 import { useAccount, useSwitchChain, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { Reimbursment, getReimbursments, storeReimbursment } from "~/lib/reimburments";
+import { Reimbursment, storeReimbursment } from "~/lib/reimburments";
 import { CastWithInteractions } from "@neynar/nodejs-sdk/build/api";
 import { BASE_USDC_ADDRESS } from "~/lib/constants";
 
@@ -70,7 +70,6 @@ export const ReimbursementProvider = ({ children }: PropsWithChildren) => {
               return;
             }
           }
-
           writeContract({
             abi: parseAbi(["function transfer(address to, uint256 amount) returns (bool)"]),
             address: BASE_USDC_ADDRESS,
