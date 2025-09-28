@@ -13,6 +13,7 @@ interface ReimbursementContextType {
   closeModal: () => void;
   cast: CastWithInteractions | null;
   isModalOpen: boolean;
+  setReimburments: (r: Reimbursment[]) => void;
   reimburse: (amount: string, to: `0x${string}`) => void;
   isPending: boolean;
   isConfirming: boolean;
@@ -37,16 +38,16 @@ export const ReimbursementProvider = ({ children }: PropsWithChildren) => {
     hash,
   });
 
-  useEffect(() => {
-    getReimbursments().then(setReimburments);
-  }, []);
+  // useEffect(() => {
+  //   getReimbursments().then(setReimburments);
+  // }, []);
 
   useEffect(() => {
     if (isConfirmed && cast && hash) {
       storeReimbursment({ castHash: cast.hash, transactionHash: hash }).then(setReimburments);
       // TODO: reply to cast that, reimbursement is paid
       (async () => await fetch('/api/reply-reimpursement', {
-        headers: { "Content-Type": "application/json" }, method: 'POST', 
+        headers: { "Content-Type": "application/json" }, method: 'POST',
         body: JSON.stringify({ castHash: cast.hash, reimbursementTxHash: hash })
       }))()
     }
@@ -60,6 +61,7 @@ export const ReimbursementProvider = ({ children }: PropsWithChildren) => {
         closeModal: () => setCast(null),
         cast,
         isModalOpen: cast !== null,
+        setReimburments: (r: Reimbursment[]) => setReimburments(r),
         reimburse: async (amount: string, to: `0x${string}`) => {
           if (chainId !== base.id) {
             try {

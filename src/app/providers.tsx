@@ -2,7 +2,6 @@
 
 import dynamic from 'next/dynamic';
 import { MiniAppProvider } from '@neynar/react';
-import { SafeFarcasterSolanaProvider } from '~/components/providers/SafeFarcasterSolanaProvider';
 import { ANALYTICS_ENABLED } from '~/lib/constants';
 import React, { useState, useEffect } from 'react';
 import { ReimbursementProvider } from '~/components/providers/ReimbursementProvider';
@@ -112,22 +111,17 @@ export function Providers({
   children: React.ReactNode;
   shouldUseSession?: boolean;
 }) {
-  const solanaEndpoint =
-    process.env.SOLANA_RPC_ENDPOINT || 'https://solana-rpc.publicnode.com';
-
   return (
     <WagmiProvider>
       <MiniAppProvider
         analyticsEnabled={false}
         backButtonEnabled={true}
       >
-        <SafeFarcasterSolanaProvider endpoint={solanaEndpoint}>
           <AuthProviders session={session} shouldUseSession={shouldUseSession}>
             <ReimbursementProvider>
               {children}
             </ReimbursementProvider>
           </AuthProviders>
-        </SafeFarcasterSolanaProvider>
       </MiniAppProvider>
     </WagmiProvider>
   );

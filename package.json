@@ -23,7 +23,7 @@
     "@farcaster/miniapp-wagmi-connector": "^1.0.0",
     "@farcaster/quick-auth": ">=0.0.7 <1.0.0",
     "@headlessui/react": "^2.2.4",
-    "@neynar/nodejs-sdk": "^2.19.0",
+    "@neynar/nodejs-sdk": "^2.46.0",
     "@neynar/react": "^1.2.5",
     "@radix-ui/react-label": "^2.1.1",
     "@solana/wallet-adapter-react": "^0.15.38",
