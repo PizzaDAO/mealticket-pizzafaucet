@@ -15,6 +15,7 @@ export const ChannelCasts = () => {
 
   useEffect(() => {
     (async () => {
+      if (casts.length > 0) return
       setLoading(true);
       try {
         const res = await fetch("/api/get-channel-feed", { cache: "no-store" })
@@ -29,7 +30,7 @@ export const ChannelCasts = () => {
         setLoading(false);
       }
     })()
-  }, [setReimburments])
+  }, [setReimburments, casts])
 
   return (
     <div className="max-sm:space-y-2 sm:space-y-4 overflow-auto">
