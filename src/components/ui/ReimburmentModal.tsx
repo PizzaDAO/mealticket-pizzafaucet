@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { getAddress } from "viem";
 import { useReimbursement } from "../providers/ReimbursementProvider";
-import { TransactionStatus } from "./TransactionStatus";
+// import { TransactionStatus } from "./TransactionStatus";
 import sdk from "@farcaster/miniapp-sdk";
 
 export function ReimbursmentModal() {
@@ -108,9 +108,6 @@ export function ReimbursmentModal() {
             </Field>
 
             <div className="mt-6 flex items-center justify-between gap-6">
-              <div className="text-sm">
-                <TransactionStatus />
-              </div>
               <div className="flex items-center gap-6">
                 <button
                   onClick={closeModal}
