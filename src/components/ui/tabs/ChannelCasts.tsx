@@ -20,7 +20,6 @@ export const ChannelCasts = () => {
         const res = await fetch("/api/get-channel-feed", { cache: "no-store" })
         const casts = await res.json();
         setCasts(casts);
-        console.log("Casts from API:", casts);
         if (casts.length === 0) return
         const reimburments = await getReimbursments()
         setReimburments(reimburments);

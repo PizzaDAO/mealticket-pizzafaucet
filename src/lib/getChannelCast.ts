@@ -25,7 +25,7 @@ export const getChannelCasts = async (channelId: string): Promise<Cast[]> => {
     .filter(cast => !moderated.includes(cast.hash))
     .map(cast => ({
       ...cast,
-      isMember:  members.find(m => m.user.fid == cast.author.fid) !== undefined
+      isMember: true//members.find(m => m.user.fid == cast.author.fid) !== undefined
     }))
 
   return casts

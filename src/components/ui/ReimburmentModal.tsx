@@ -14,19 +14,37 @@ import { useEffect, useState } from "react";
 import { getAddress } from "viem";
 import { useReimbursement } from "../providers/ReimbursementProvider";
 import { TransactionStatus } from "./TransactionStatus";
+import sdk from "@farcaster/miniapp-sdk";
 
 export function ReimbursmentModal() {
-  const { closeModal, isModalOpen, reimburse, cast, reset, isConfirmed, isConfirming, isPending } =
+  const { closeModal, isModalOpen, cast, updateReimburments } =
     useReimbursement();
   const [amount, setAmount] = useState("");
   const [address, setAddress] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    reset();
     setAmount("");
     setAddress("");
-    if (cast) setAddress(cast.author.verified_addresses.eth_addresses?.[0] || "");
-  }, [cast, reset]);
+    if (cast) setAddress(cast.author.verified_addresses.primary.eth_address || "");
+  }, [cast]);
+
+  const reimburse = (amount: string, to: `0x${string}`) => {
+    if (!cast) return;
+    setLoading(true);
+    sdk.actions.sendToken({
+      token: "eip155:8453/erc20:0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", // USDC on Base
+      amount: amount,
+      recipientAddress: to
+    }).then(async result => {
+      if (result.success) {
+        const txHash = result.send.transaction;
+        await updateReimburments(cast.hash, txHash);
+        setLoading(false);
+      } 
+    })
+  }
 
   return (
     <Dialog open={isModalOpen} onClose={closeModal} className="relative z-50">
@@ -106,9 +124,7 @@ export function ReimbursmentModal() {
                   disabled={
                     Number(amount) <= 0 ||
                     !isEthAddress(address) ||
-                    isPending ||
-                    isConfirming ||
-                    isConfirmed
+                    loading
                   }
                   className="rounded-xl bg-green-500 px-4 pb-1.5 pt-2.5 font-display font-medium text-white duration-100 ease-in-out hover:bg-green-400 disabled:opacity-50"
                 >
