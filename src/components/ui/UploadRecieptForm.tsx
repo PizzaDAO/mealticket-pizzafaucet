@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 
 import Image from 'next/image';
 import sdk from '@farcaster/miniapp-sdk';
+import { toast } from 'sonner';
 
 type Embed = [string, string] | [string] | []
 type ComponentProps = {
@@ -103,9 +104,16 @@ export default function UploadReceiptField({ channelId }: ComponentProps) {
             setValue("images", [], { shouldValidate: false });
             setValue("text", "Proof of Pizza @pizzadao @base", { shouldValidate: false });
             setValue("amount", 0, { shouldValidate: false });
-            alert("Request submitted successfully!");
+            toast.success("Request submitted successfully!", {
+              duration: 5000,
+              dismissible: true,
+            });
          } else {
             console.log("Failed to submit cast.");
+            toast.error("Failed to submit request.", {
+              duration: 5000,
+              dismissible: true,
+            });
          }
       } catch (error: any) {
          console.error("Error uploading images:", error);

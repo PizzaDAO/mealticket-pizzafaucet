@@ -15,6 +15,7 @@ import { getAddress } from "viem";
 import { useReimbursement } from "../providers/ReimbursementProvider";
 // import { TransactionStatus } from "./TransactionStatus";
 import sdk from "@farcaster/miniapp-sdk";
+import { toast } from "sonner";
 
 export function ReimbursmentModal() {
   const { closeModal, isModalOpen, cast, updateReimburments } =
@@ -42,7 +43,21 @@ export function ReimbursmentModal() {
         const txHash = result.send.transaction;
         await updateReimburments(cast.hash, txHash);
         setLoading(false);
-      } 
+        closeModal();
+        toast.success("Reimbursement sent!", {
+          description: `Transaction hash: ${txHash}`,
+          duration: 5000,
+          dismissible: true,
+        });
+      }  else {
+        setLoading(false);
+        closeModal();
+        toast.error("Reimbursement failed!", {
+          description: result.error?.message,
+          duration: 5000,
+          dismissible: true,
+        });
+      }
     })
   }
 
