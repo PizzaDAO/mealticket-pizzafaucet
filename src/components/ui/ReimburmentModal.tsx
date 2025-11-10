@@ -16,6 +16,7 @@ import { useReimbursement } from "../providers/ReimbursementProvider";
 // import { TransactionStatus } from "./TransactionStatus";
 import sdk from "@farcaster/miniapp-sdk";
 import { toast } from "sonner";
+import { useAccount } from "wagmi";
 
 export function ReimbursmentModal() {
   const { closeModal, isModalOpen, cast, updateReimburments } =
@@ -25,6 +26,8 @@ export function ReimbursmentModal() {
 
   const [loading, setLoading] = useState(false);
 
+  const { address: account } = useAccount()
+
   useEffect(() => {
     setAmount("");
     setAddress("");
@@ -33,6 +36,8 @@ export function ReimbursmentModal() {
 
   const reimburse = (amount: any, to: `0x${string}`) => {
     const amt = amount * 1000000
+
+    console.log(account)
     if (!cast) return;
     setLoading(true);
     sdk.actions.sendToken({
