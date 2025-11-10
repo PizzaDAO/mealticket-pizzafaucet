@@ -42,23 +42,29 @@ export function ReimbursmentModal() {
       if (result.success) {
         const txHash = result.send.transaction;
         await updateReimburments(cast.hash, txHash);
-        setLoading(false);
-        closeModal();
         toast.success("Reimbursement sent!", {
           description: `Transaction hash: ${txHash}`,
           duration: 5000,
           dismissible: true,
         });
       }  else {
-        setLoading(false);
-        closeModal();
         toast.error("Reimbursement failed!", {
           description: result.error?.message,
           duration: 5000,
           dismissible: true,
         });
       }
-    })
+    }).catch(error => {
+      console.error("Error sending reimbursement:", error);
+      toast.error("Reimbursement failed!", {
+        description: error?.message,
+        duration: 5000,
+        dismissible: true,
+      });
+    }).finally(() => {
+        setLoading(false);
+        closeModal();
+    });
   }
 
   return (
