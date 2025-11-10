@@ -14,19 +14,14 @@ import { useEffect, useState } from "react";
 import { getAddress } from "viem";
 import { useReimbursement } from "../providers/ReimbursementProvider";
 // import { TransactionStatus } from "./TransactionStatus";
-import sdk from "@farcaster/miniapp-sdk";
+// import sdk from "@farcaster/miniapp-sdk";
 import { toast } from "sonner";
-import { useAccount } from "wagmi";
 
 export function ReimbursmentModal() {
-  const { closeModal, isModalOpen, cast, updateReimburments } =
+  const { closeModal, isModalOpen, cast, reimburse, isPending, isConfirming, hash, isConfirmed, updateReimburments } =
     useReimbursement();
   const [amount, setAmount] = useState("");
   const [address, setAddress] = useState("");
-
-  const [loading, setLoading] = useState(false);
-
-  const { address: account } = useAccount()
 
   useEffect(() => {
     setAmount("");
@@ -34,44 +29,57 @@ export function ReimbursmentModal() {
     if (cast) setAddress(cast.author.verified_addresses.primary.eth_address || "");
   }, [cast]);
 
-  const reimburse = (amount: any, to: `0x${string}`) => {
-    const amt = amount * 1000000
-
-    console.log(account)
-    if (!cast) return;
-    setLoading(true);
-    sdk.actions.sendToken({
-      token: "eip155:8453/erc20:0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", // USDC on Base
-      amount: amt.toString(),
-      recipientAddress: to
-    }).then(async result => {
-      if (result.success) {
-        const txHash = result.send.transaction;
-        await updateReimburments(cast.hash, txHash);
-        toast.success("Reimbursement sent!", {
-          description: `Transaction hash: ${txHash}`,
-          duration: 5000,
-          dismissible: true,
-        });
-      }  else {
-        toast.error("Reimbursement failed!", {
-          description: result.error?.message,
-          duration: 5000,
-          dismissible: true,
-        });
-      }
-    }).catch(error => {
-      console.error("Error sending reimbursement:", error);
-      toast.error("Reimbursement failed!", {
-        description: error?.message,
+  useEffect(() => {
+    if (isConfirmed && cast && hash) {
+      updateReimburments(cast.hash, hash);
+      toast.success("Reimbursement sent!", {
+        description: `Transaction hash: ${hash}`,
         duration: 5000,
         dismissible: true,
       });
-    }).finally(() => {
-        setLoading(false);
-        closeModal();
-    });
-  }
+      closeModal();
+    }
+  }, [isConfirmed, cast, hash, updateReimburments, closeModal]);
+
+  // const reimburse = (amount: any, to: `0x${string}`) => {
+  //   const amt = amount * 1000000
+
+  //   console.log(account)
+  //   if (!cast) return;
+  //   setLoading(true);
+
+  //   sdk.actions.sendToken({
+  //     token: "eip155:8453/erc20:0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", // USDC on Base
+  //     amount: amt.toString(),
+  //     recipientAddress: to
+  //   }).then(async result => {
+  //     if (result.success) {
+  //       const txHash = result.send.transaction;
+  //       await updateReimburments(cast.hash, txHash);
+  //       toast.success("Reimbursement sent!", {
+  //         description: `Transaction hash: ${txHash}`,
+  //         duration: 5000,
+  //         dismissible: true,
+  //       });
+  //     }  else {
+  //       toast.error("Reimbursement failed!", {
+  //         description: result.error?.message,
+  //         duration: 5000,
+  //         dismissible: true,
+  //       });
+  //     }
+  //   }).catch(error => {
+  //     console.error("Error sending reimbursement:", error);
+  //     toast.error("Reimbursement failed!", {
+  //       description: error?.message,
+  //       duration: 5000,
+  //       dismissible: true,
+  //     });
+  //   }).finally(() => {
+  //       setLoading(false);
+  //       closeModal();
+  //   });
+  // }
 
   return (
     <Dialog open={isModalOpen} onClose={closeModal} className="relative z-50">
@@ -148,7 +156,7 @@ export function ReimbursmentModal() {
                   disabled={
                     Number(amount) <= 0 ||
                     !isEthAddress(address) ||
-                    loading
+                    isPending || isConfirming
                   }
                   className="rounded-xl bg-green-500 px-4 pb-1.5 pt-2.5 font-display font-medium text-white duration-100 ease-in-out hover:bg-green-400 disabled:opacity-50"
                 >
