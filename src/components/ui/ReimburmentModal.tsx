@@ -31,12 +31,13 @@ export function ReimbursmentModal() {
     if (cast) setAddress(cast.author.verified_addresses.primary.eth_address || "");
   }, [cast]);
 
-  const reimburse = (amount: string, to: `0x${string}`) => {
+  const reimburse = (amount: any, to: `0x${string}`) => {
+    const amt = amount * 1000000
     if (!cast) return;
     setLoading(true);
     sdk.actions.sendToken({
       token: "eip155:8453/erc20:0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", // USDC on Base
-      amount: amount,
+      amount: amt.toString(),
       recipientAddress: to
     }).then(async result => {
       if (result.success) {
